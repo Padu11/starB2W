@@ -21,5 +21,4 @@ public class Validation {
 		return ResponseEntity.ok(bodyIfNotNull);
 
 	}
-
 }
