@@ -37,9 +37,9 @@ public class PlanetService {
 
 		return converter.toPlanetResponse(planet);
 	}
-
+	
 	public Optional<PlanetResponse> createPlanet(PlanetRequest planetRequest) {
-
+		
 		Optional<Planet> planet = converter.requestToPlanet(planetRequest);
 
 		log.info("Creating planet {}", planet.get().getName());
@@ -59,13 +59,15 @@ public class PlanetService {
 
 	}
 
-	public Optional<PlanetResponse> deletePlanByUuid(String id) {
+	public Boolean deletePlanById(String id) {
 
 		log.info("Deletando planeta com uuid {}.", id);
 
-		Optional<Planet> planet = planetRepository.deleteById();
+		 Long isDeleted = planetRepository.deleteById(id);
 
-		return converter.toPlanetResponse(planet);
+		 if(isDeleted == 1) {
+			 return true;
+		 } return false;
 
 	}
 
