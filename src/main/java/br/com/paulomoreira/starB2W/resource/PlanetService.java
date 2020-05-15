@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import br.com.paulomoreira.starB2W.dto.PlanetRequest;
 import br.com.paulomoreira.starB2W.dto.PlanetResponse;
 import br.com.paulomoreira.starB2W.model.Planet;
+import br.com.paulomoreira.starB2W.util.Constants;
 import br.com.paulomoreira.starB2W.util.Converter;
+import br.com.paulomoreira.starB2W.util.Validation;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -22,38 +24,63 @@ public class PlanetService {
 	@Autowired
 	Converter converter;
 
+	@Autowired
+	Validation validation;
+
 	public List<PlanetResponse> findAllPlanets() {
 
 		log.info(("Searching all the planets."));
 		List<Planet> planets = planetRepository.findAll();
+		
+		if(planets.isEmpty()) {
+			return null;
+		}
 
-		return converter.toListOfPlanetResponse(planets);
+		return converter.toPlanetsResponse(Optional.of(planets)).get();
+
 	}
 
-	public Optional<PlanetResponse> findPlanetByName(String name) {
+	public Optional<List<PlanetResponse>> findPlanetByName(String name) {
 
 		log.info("Searching list of planets.");
-		Optional<Planet> planet = planetRepository.findByName(name);
-
-		return converter.toPlanetResponse(planet);
-	}
-	
-	public Optional<PlanetResponse> createPlanet(PlanetRequest planetRequest) {
+		Optional<List<Planet>> planet = planetRepository.findAllByName(name);
 		
-		Optional<Planet> planet = converter.requestToPlanet(planetRequest);
+		if(planet.get().isEmpty()){
+			return null;
+		}
 
-		log.info("Creating planet {}", planet.get().getName());
-		planet = Optional.of(planetRepository.save(planet.get()));
+		return converter.toPlanetsResponse(planet);
+	}
 
-		return converter.toPlanetResponse(planet);
+	public Optional<PlanetResponse> createPlanet(PlanetRequest planetRequest) {
+
+		String planetName = planetRequest.getName();
+
+		Boolean planetExists = validation.checkIfPlanetExist(planetName);
+
+		if (planetExists == Constants.FALSE) {
+
+			Optional<Planet> planet = converter.requestToPlanet(planetRequest);
+
+			log.info("Creating planet {}.", planet.get().getName());
+			planet = Optional.of(planetRepository.save(planet.get()));
+
+			return converter.toPlanetResponse(planet);
+
+		}
+
+		return null;
 
 	}
 
 	public Optional<PlanetResponse> findPlanetByID(String id) {
 
 		log.info("Searching planet with id {}.", id);
-
 		Optional<Planet> planet = planetRepository.findById(id);
+		
+		if(planet.isEmpty()){
+			return null;
+		}
 
 		return converter.toPlanetResponse(planet);
 
@@ -62,12 +89,12 @@ public class PlanetService {
 	public Boolean deletePlanById(String id) {
 
 		log.info("Deletando planeta com uuid {}.", id);
+		Long isDeleted = planetRepository.deleteById(id);
 
-		 Long isDeleted = planetRepository.deleteById(id);
-
-		 if(isDeleted == 1) {
-			 return true;
-		 } return false;
+		if (isDeleted == Constants.ONE) {
+			return Constants.TRUE;
+		}
+		return Constants.FALSE;
 
 	}
 

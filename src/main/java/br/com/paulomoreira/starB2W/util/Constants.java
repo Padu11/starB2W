@@ -23,6 +23,14 @@ public final class Constants {
 
 	public static final String FIELD = "Field ";
 
+	public static final String PLANET_EXIST = "This planet has already been created.";
+
+	public static final Boolean FALSE = false;
+	
+	public static final Boolean TRUE = true;
+
+	public static final Long ONE = 1L;
+
 
 	
 }

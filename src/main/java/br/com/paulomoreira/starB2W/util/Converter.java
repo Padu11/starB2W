@@ -30,6 +30,8 @@ public class Converter {
 		return null;
 
 	}
+	
+	
 	@Validated
 	public Optional<Planet> requestToPlanet(PlanetRequest planetRequest) {
 		
@@ -42,9 +44,17 @@ public class Converter {
 		return Optional.of(planet);	
 	}
 
-	public List<PlanetResponse> toListOfPlanetResponse(List<Planet> planets) {
+	public Optional<List<PlanetResponse>> toPlanetsResponse(Optional<List<Planet>> planets) {
 		
-		return planets.stream().map(PlanetResponse::new).collect(Collectors.toList());
+		if(planets.isPresent()) {
+		
+		List<PlanetResponse> planetsResponse = 
+				planets.get().stream().map(PlanetResponse::new).collect(Collectors.toList());
+		
+		return Optional.of(planetsResponse);
+		
+		}
 	
+		return null;
 	}
 }
