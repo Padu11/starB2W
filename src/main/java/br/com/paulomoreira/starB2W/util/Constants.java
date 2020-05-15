@@ -16,5 +16,13 @@ public final class Constants {
 			"It was not possible to delete the planet.";
 
 	public static final String ERROR = "We were unable to process your request. Try again later.";
+
+	public static final String PLANET_DELETED = "Planet Deleted.";
+
+	public static final String WHITE_SPACE = " ";
+
+	public static final String FIELD = "Field ";
+
+
 	
 }
