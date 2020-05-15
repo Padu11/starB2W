@@ -109,7 +109,7 @@ public class PlanetResource {
 		Optional<PlanetResponse> planetResponse = planetService.createPlanet(planetRequest);
 		try {
 			
-			var bodyIfNull = ResponseDTO.responseGenerator(HttpStatus.NOT_FOUND.value(),
+			var bodyIfNull = ResponseDTO.responseGenerator(HttpStatus.BAD_REQUEST.value(),
 					Arrays.asList(new ErrorType(Constants.PLANET_EXIST)));
 			
 			var bodyIfNotNull = ResponseDTO.responseGenerator(HttpStatus.CREATED.value(), planetResponse);
