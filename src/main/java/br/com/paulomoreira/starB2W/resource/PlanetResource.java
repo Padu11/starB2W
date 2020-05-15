@@ -9,9 +9,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,13 +35,11 @@ public class PlanetResource {
 	@Autowired
 	PlanetService planetService;
 
-	
-	ResponseDTO bodyError = ResponseDTO.responseGenerator
-			(HttpStatus.INTERNAL_SERVER_ERROR.value(),Arrays.asList(new ErrorType(Constants.ERROR)));
+	ResponseDTO bodyError = ResponseDTO.responseGenerator(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+			Arrays.asList(new ErrorType(Constants.ERROR)));
 
 	ResponseEntity<ResponseDTO> error = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(bodyError);
 
-	
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Get all planets.")
 	public ResponseEntity<ResponseDTO> findAllPlanets() {
@@ -100,14 +98,15 @@ public class PlanetResource {
 
 	@PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Create Planet.")
-	public ResponseEntity<ResponseDTO> createPlanet(@RequestBody PlanetRequest planetRequest) {
-
+	public ResponseEntity<ResponseDTO> createPlanet(@RequestBody @Validated PlanetRequest planetRequest 
+		) {
+		
 		Optional<PlanetResponse> planet = planetService.createPlanet(planetRequest);
-
 		try {
-
+			
 			var body = ResponseDTO.responseGenerator(HttpStatus.CREATED.value(), planet);
 			return ResponseEntity.created(null).body(body);
+
 
 		} catch (Exception e) {
 			return error;
@@ -115,17 +114,19 @@ public class PlanetResource {
 
 	}
 
-	@DeleteMapping(path = { "uuid" }, produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
-	@ApiOperation(value = "Delete Planet by Uuid.")
-	public ResponseEntity<ResponseDTO> deletePlanetByUuid(@PathVariable(value = "uuid", required = true) String uuid) {
 
-		Optional<PlanetResponse> planetResponse = planetService.deletePlanByUuid(uuid);
+	@DeleteMapping(path = "{id}", produces = APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Delete Planet by Id.")
+	public ResponseEntity<ResponseDTO> deletePlanetById(@RequestParam(value = "id", required = true) String id) {
+
+		Boolean wasDeleted = planetService.deletePlanById(id);
+
 		try {
-			if (planetResponse == null) {
+			if (wasDeleted == false) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseDTO.responseGenerator(
 						HttpStatus.NOT_FOUND.value(), Arrays.asList(new ErrorType(Constants.PLANET_NOT_FOUND))));
 			}
-			return ResponseEntity.ok(ResponseDTO.responseGenerator(HttpStatus.OK.value(), planetResponse));
+			return ResponseEntity.ok(ResponseDTO.responseGenerator(HttpStatus.OK.value(), Constants.PLANET_DELETED));
 
 		} catch (Exception e) {
 			return error;

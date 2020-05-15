@@ -10,10 +10,11 @@ import br.com.paulomoreira.starB2W.model.Planet;
 @Repository
 public interface PlanetRepository extends MongoRepository<Planet, Long> {
 
-	Optional<Planet> deleteById();
-
 	Optional<Planet> findByName(String name);
 
 	Optional<Planet> findById(String id);
+
+	Long deleteById(String id);
+
 
 }

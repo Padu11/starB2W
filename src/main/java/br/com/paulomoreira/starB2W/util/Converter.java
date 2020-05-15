@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import br.com.paulomoreira.starB2W.dto.PlanetRequest;
 import br.com.paulomoreira.starB2W.dto.PlanetResponse;
@@ -29,7 +30,7 @@ public class Converter {
 		return null;
 
 	}
-
+	@Validated
 	public Optional<Planet> requestToPlanet(PlanetRequest planetRequest) {
 		
 		Planet planet = new Planet();
