@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -17,16 +18,19 @@ public class Planet {
 	@Column(name = "id", unique = true, nullable = false)
 	private String id;
 	
-	@Column(name = "name")
+	@Column(name = "name", unique = true, nullable = false)
 	@NotNull(message = "The name is required.")
+	@Valid
 	private String name;
 	
-	@Column(name = "climate")
+	@Column(name = "climate", nullable = false)
 	@NotNull(message = "The climate is required.")
+	@Valid
 	private String climate;
 	
-	@Column(name = "ground")
+	@Column(name = "ground", nullable = false)
 	@NotNull(message = "The ground is required.")
+	@Valid
 	private String ground;
 	
 
