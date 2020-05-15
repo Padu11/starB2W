@@ -27,8 +27,8 @@ public class Validation {
 			ResponseDTO bodyIfNull, ResponseDTO bodyIfNotNull) {
 
 		if (planetResponse == null) {
-
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(bodyIfNull);
+			
+			return ResponseEntity.status(bodyIfNull.getStatusCode()).body(bodyIfNull);
 		}
 
 		return ResponseEntity.ok(bodyIfNotNull);
