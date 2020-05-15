@@ -21,6 +21,9 @@ public class PlanetRequest {
 	@NotNull
 	private String ground;
 	
+	public PlanetRequest() {
+	}
+	
 	public PlanetRequest(String name, String climate, String ground) {
 		
 		this.name = name;
@@ -28,6 +31,8 @@ public class PlanetRequest {
 		this.ground = ground;
 		
 	}
+
+
 
 
 }
