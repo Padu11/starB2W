@@ -2,7 +2,7 @@
 ## API de gerenciamento de planetas do Star Wars!
 Update date: 2020-05-16.
 
-![Star Wars](https://drive.google.com/open?id=12t2iAgMne8nV5QF5c5HSVugDbRWJosTL)
+![Star Wars](https://uploaddeimagens.com.br/imagens/rQn1Jnw)
 
 <h3>Bem vindo ao ReadMe da API StarB2W.<h3>
 
