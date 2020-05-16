@@ -39,7 +39,7 @@ Por default: page = 1 e Size = 10.
 
     curl -X GET "http://localhost:8080/starB2W/v1/planet?page=1&size=10" -H "accept: application/json" 
 
-**Modelo de objeto de retorno em caso de sucesso (Status Code 201):**
+**Modelo de objeto de retorno em caso de sucesso (Status Code 200):**
 
 > {  "statusCode":  200, 
 >  "success":  true, 
