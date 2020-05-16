@@ -5,7 +5,7 @@ Update date: 2020-05-16.
 
 <h3>Bem vindo ao ReadMe da API StarB2W.<h3>
 
-Esta aplicação foi desenvolvida com arquitetura API RESTful e tem por objeto gerenciar dados de planetas do filme Star Wars. Considera-se por gerenciamento ações de cadastrar, listar e deletar dados de planetas.
+Esta aplicação foi desenvolvida com arquitetura API RESTful e tem por objetivo gerenciar dados de planetas do filme Star Wars. Considera-se por gerenciamento ações de cadastrar, listar e deletar dados de planetas.
 
 **URL Base:** [http://localhost:8080/starB2W](http://localhost:8080/starB2W)
 Observações:
