@@ -1,12 +1,11 @@
-# DESAFIO B2W | API STAR WARS 
+﻿# DESAFIO B2W | API STAR WARS 
 ## API de gerenciamento de planetas do Star Wars!
 Update date: 2020-05-16.
 
-![Star Wars](https://drive.google.com/open?id=12t2iAgMne8nV5QF5c5HSVugDbRWJosTL)
 
 <h3>Bem vindo ao ReadMe da API StarB2W.<h3>
 
-Esta aplicação foi desenvolvida com arquitetura API RESTful e tem por objeto gerenciar dados de planetas do filme Star Wars. Considera-se por gerenciamento ações de cadastrar, listar e deletar dados de planetas.
+Esta aplicação foi desenvolvida com arquitetura API RESTful e tem por objetivo gerenciar dados de planetas do filme Star Wars. Considera-se por gerenciamento ações de cadastrar, listar e deletar dados de planetas.
 
 **URL Base:** [http://localhost:8080/starB2W](http://localhost:8080/starB2W)
 Observações:
@@ -40,7 +39,7 @@ Por default: page = 1 e Size = 10.
 
     curl -X GET "http://localhost:8080/starB2W/v1/planet?page=1&size=10" -H "accept: application/json" 
 
-**Modelo de objeto de retorno em caso de sucesso (Status Code 201):**
+**Modelo de objeto de retorno em caso de sucesso (Status Code 200):**
 
 > {  "statusCode":  200, 
 >  "success":  true, 
