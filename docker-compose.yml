@@ -1,11 +1,19 @@
 version: '3.1'
 services:
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    expose:
+     - 27017
+    ports:
+     - "27017:27017"
   starb2w:    
     build: .
     environment:
-      ENVIRONMENT: local
-      MAX_JAVA_MEMORY: 512
-      MIN_JAVA_MEMORY: 256
+     - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/starB2W
+
+    
     ports:
      - "8080:8080"
     links:
@@ -13,10 +21,4 @@ services:
     depends_on:
     - mongo
 
-  mongo:
-    container_name: mongo
-    image: mongo
-    expose:
-    - 27015
-    ports:
-    - "27015:27015"
+
