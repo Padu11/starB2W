@@ -1,6 +1,7 @@
 server:
   servlet:
     context-path: /starB2W
+  port: 8080
     
 spring:
   data:    mongodb:
