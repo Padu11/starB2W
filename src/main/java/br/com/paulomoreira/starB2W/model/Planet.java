@@ -19,7 +19,10 @@ public class Planet {
 	private String climate;
 	
 	@NotNull
-	private String ground;
+	private String terrain;
+	
+	@NotNull
+	private String movieAppearances;
 	
 
 }

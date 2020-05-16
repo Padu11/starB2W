@@ -3,12 +3,12 @@ package br.com.paulomoreira.starB2W.resource;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(path = "/v1")
+@RequestMapping(path = "/v1/planet")
 @Api(value = "/v1/planet", tags = "Operations about planet of Star Wars.")
 @Slf4j
 public class PlanetResource {
@@ -41,10 +41,13 @@ public class PlanetResource {
 
 	@GetMapping(produces = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Get all planets.")
-	public ResponseEntity<ResponseDTO> findAllPlanets() {
+	public ResponseEntity<ResponseDTO> findAllPlanets(
+			@RequestParam(defaultValue = "1", required = false) Integer page, 
+			@RequestParam(defaultValue = "10", required = false) Integer size)  {
 
 		try {
-			Optional<List<PlanetResponse>> planetsResponse = Optional.of(planetService.findAllPlanets());
+			Optional<Page<PlanetResponse>> planetsResponse = 
+					Optional.of(planetService.findAllPlanets(page, size));
 
 			var bodyIfNull = ResponseDTO.responseGenerator(HttpStatus.NOT_FOUND.value(),
 					Arrays.asList(new ErrorType(Constants.PLANET_NOT_FOUND)));
@@ -54,7 +57,7 @@ public class PlanetResource {
 			return Validation.planetResponse(planetsResponse, bodyIfNull, bodyIfNotNull);
 			
 		} catch (Exception e) {
-			log.debug(e.getMessage());
+			log.error(e.getMessage());
 			return ServerTreatment.response();
 		}
 	}
@@ -64,7 +67,7 @@ public class PlanetResource {
 	public ResponseEntity<ResponseDTO> findPlanetByName(@RequestParam(value = "name", required = true) String name) {
 
 		try {
-			Optional<List<PlanetResponse>> planetResponse = planetService.findPlanetByName(name);
+			Optional<PlanetResponse> planetResponse = planetService.findPlanetByName(name);
 
 			var bodyIfNull = ResponseDTO.responseGenerator(HttpStatus.NOT_FOUND.value(),
 					Arrays.asList(new ErrorType(Constants.PLANET_NOT_FOUND)));
@@ -74,7 +77,7 @@ public class PlanetResource {
 			return Validation.planetResponse(planetResponse, bodyIfNull, bodyIfNotNull);
 
 		} catch (Exception e) {
-			log.debug(e.getMessage());
+			log.error(e.getMessage());
 			return ServerTreatment.response();
 		}
 
@@ -95,7 +98,7 @@ public class PlanetResource {
 			return Validation.planetResponse(planetResponse, bodyIfNull, bodyIfNotNull);
 
 		} catch (Exception e) {
-			log.debug(e.getMessage());
+			log.error(e.getMessage());
 			return ServerTreatment.response();
 		}
 
@@ -109,6 +112,7 @@ public class PlanetResource {
 		Optional<PlanetResponse> planetResponse = planetService.createPlanet(planetRequest);
 		try {
 			
+
 			var bodyIfNull = ResponseDTO.responseGenerator(HttpStatus.BAD_REQUEST.value(),
 					Arrays.asList(new ErrorType(Constants.PLANET_EXIST)));
 			
@@ -117,7 +121,7 @@ public class PlanetResource {
 			return Validation.planetResponse(planetResponse, bodyIfNull, bodyIfNotNull);
 
 		} catch (Exception e) {
-			log.debug(e.getMessage());
+			log.error(e.getMessage());
 			return ServerTreatment.response();
 		}
 
@@ -141,7 +145,7 @@ public class PlanetResource {
 			
 
 		} catch (Exception e) {
-			log.debug(e.getMessage());
+			log.error(e.getMessage());
 			return ServerTreatment.response();
 		}
 

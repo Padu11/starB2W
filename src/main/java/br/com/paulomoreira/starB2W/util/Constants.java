@@ -31,6 +31,13 @@ public final class Constants {
 
 	public static final Long ONE = 1L;
 
+	public static final Integer ZERO = 0;
+
+	public static final String MOVIE_APPEARANCES_NOT_FOUND = 
+			"It was not possible to identify the number of appearances.";
+
+	public static final String ERROR_FIND = "Não foi possível realizar a busca com parametros sort e page descritos.";
+
 
 	
 }

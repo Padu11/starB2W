@@ -12,7 +12,9 @@ public class PlanetResponse {
 	
 	private String climate;
 	
-	private String ground;
+	private String terrain;
+	
+	private String movieAppearances;
 
 	public PlanetResponse() {
 		super();
@@ -23,7 +25,7 @@ public class PlanetResponse {
 		this.id = planet.getId();
 		this.name = planet.getName();
 		this.climate = planet.getClimate();
-		this.ground = planet.getGround();
+		this.terrain = planet.getTerrain();
 	}
 	
 	

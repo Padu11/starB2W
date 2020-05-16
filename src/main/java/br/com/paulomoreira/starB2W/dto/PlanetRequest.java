@@ -19,16 +19,16 @@ public class PlanetRequest {
 	
 	@ApiModelProperty(position = 3)
 	@NotNull
-	private String ground;
+	private String terrain;
 	
 	public PlanetRequest() {
 	}
 	
-	public PlanetRequest(String name, String climate, String ground) {
+	public PlanetRequest(String name, String climate, String terrain) {
 		
 		this.name = name;
 		this.climate = climate;
-		this.ground = ground;
+		this.terrain = terrain;
 		
 	}
 
