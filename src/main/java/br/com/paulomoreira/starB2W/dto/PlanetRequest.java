@@ -24,15 +24,4 @@ public class PlanetRequest {
 	public PlanetRequest() {
 	}
 	
-	public PlanetRequest(String name, String climate, String terrain) {
-		
-		this.name = name;
-		this.climate = climate;
-		this.terrain = terrain;
-		
-	}
-
-
-
-
 }

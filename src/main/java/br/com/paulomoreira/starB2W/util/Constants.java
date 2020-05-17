@@ -36,7 +36,9 @@ public final class Constants {
 	public static final String MOVIE_APPEARANCES_NOT_FOUND = 
 			"It was not possible to identify the number of appearances.";
 
-	public static final String ERROR_FIND = "Não foi possível realizar a busca com parametros sort e page descritos.";
+	public static final String ERROR_FIND = "It was not possible to perform the search with described sort and page parameters.";
+
+	public static final String MESSAGE = "MESSAGE: ";
 
 
 	

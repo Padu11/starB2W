@@ -1,16 +1,15 @@
 package br.com.paulomoreira.starB2W.resource;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import br.com.paulomoreira.starB2W.dto.PlanetRequest;
-import br.com.paulomoreira.starB2W.dto.PlanetResponse;
 import br.com.paulomoreira.starB2W.gateway.SwapiGateway;
 import br.com.paulomoreira.starB2W.gateway.dto.SwapiResponse;
 import br.com.paulomoreira.starB2W.model.Planet;
@@ -36,40 +35,38 @@ public class PlanetService {
 	@Autowired
 	Validation validation;
 
-	public Page<PlanetResponse> findAllPlanets(Integer page, Integer size) {
+	public List<Planet> findAllPlanets(Integer page, Integer size) {
 
 		log.info(("Searching all the planets."));
 		Pageable pageable = this.creatingPagination(page, size);
-		Page<Planet> planets = planetRepository.findAll(pageable);
-
-		
+		List<Planet> planets = planetRepository.findAll(pageable).getContent();;
 
 		if (planets.isEmpty()) {
-			planets = new PageImpl<Planet>(planetRepository.findAll());
+			planets = planetRepository.findAll();
 			if (planets.isEmpty()) {
 				return null;
 			}
 		}
 
-		return converter.toPlanetResponse(planets);
+		return planets;
 
 	}
 
-	public Optional<PlanetResponse> findPlanetByName(String name) {
+	public Optional<Planet> findPlanetByName(String name) {
 
 		log.info("Searching for {}.", name);
 		Optional<Planet> planet = planetRepository.findByName(name);
 
 		if (planet.isPresent()) {
 
-			return converter.toPlanetResponse(planet.get());
+			return planet;
 		}
 
 		return null;
 
 	}
 
-	public Optional<PlanetResponse> findPlanetByID(String id) {
+	public Optional<Planet> findPlanetByID(String id) {
 
 		log.info("Searching planet by id {}.", id);
 		Optional<Planet> planet = planetRepository.findById(id);
@@ -79,16 +76,18 @@ public class PlanetService {
 
 			String movieAppearances = this.checkForMovieAppearances(planetName);
 
-			return converter.toPlanetResponse(planet, movieAppearances);
+			planet.get().setMovieAppearances(movieAppearances);
+			
+			return planet;
 		}
 
 		return null;
 
 	}
 
-	public Optional<PlanetResponse> createPlanet(PlanetRequest planetRequest) {
+	public Optional<Planet> createPlanet(PlanetRequest planetRequest) {
 
-		String planetName = planetRequest.getName();
+		String planetName = StringUtils.capitalize(planetRequest.getName());
 
 		Boolean planetExistsInDatebase = validation.checkIfPlanetExistInDatabase(planetName);
 
@@ -101,7 +100,7 @@ public class PlanetService {
 			log.info("Creating planet {}.", planet.get().getName());
 			planet = Optional.of(planetRepository.save(planet.get()));
 
-			return converter.toPlanetResponse(planet, movieAppearances);
+			return planet;
 
 		}
 

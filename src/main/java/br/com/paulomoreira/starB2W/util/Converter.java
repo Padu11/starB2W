@@ -60,9 +60,9 @@ public class Converter {
 
 		Planet planet = new Planet();
 
-		planet.setName(planetRequest.getName());
-		planet.setTerrain(planetRequest.getTerrain());
-		planet.setClimate(planetRequest.getClimate());
+		planet.setName(planetRequest.getName().toLowerCase());
+		planet.setTerrain(planetRequest.getTerrain().toLowerCase());
+		planet.setClimate(planetRequest.getClimate().toLowerCase());
 		planet.setMovieAppearances(movieAppearances);
 
 		return Optional.of(planet);

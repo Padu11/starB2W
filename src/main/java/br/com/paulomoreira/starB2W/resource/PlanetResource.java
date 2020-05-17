@@ -2,79 +2,100 @@ package br.com.paulomoreira.starB2W.resource;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.paulomoreira.starB2W.dto.ErrorType;
 import br.com.paulomoreira.starB2W.dto.PlanetRequest;
 import br.com.paulomoreira.starB2W.dto.PlanetResponse;
-import br.com.paulomoreira.starB2W.dto.ResponseDTO;
 import br.com.paulomoreira.starB2W.exception.ServerTreatment;
+import br.com.paulomoreira.starB2W.model.Planet;
 import br.com.paulomoreira.starB2W.util.Constants;
-import br.com.paulomoreira.starB2W.util.Validation;
+import br.com.paulomoreira.starB2W.util.Converter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(path = "/v1/planet")
-@Api(value = "/v1/planet", tags = "Operations about planet of Star Wars.")
+@RequestMapping(path = "/v1")
+@Api(value = "/v1", tags = "Operations about planet of Star Wars.")
 @Slf4j
 public class PlanetResource {
 
 	@Autowired
 	PlanetService planetService;
 
-	@GetMapping(produces = APPLICATION_JSON_VALUE)
+	@Autowired
+	Converter converter;
+
+	@GetMapping(path = "planets", produces = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Get all planets.")
-	public ResponseEntity<ResponseDTO> findAllPlanets(
-			@RequestParam(defaultValue = "1", required = false) Integer page, 
-			@RequestParam(defaultValue = "10", required = false) Integer size)  {
+	public ResponseEntity<?> findAllPlanets(@RequestParam(defaultValue = "1", required = false) Integer page,
+			@RequestParam(defaultValue = "10", required = false) Integer size) {
 
 		try {
-			Optional<Page<PlanetResponse>> planetsResponse = 
-					Optional.of(planetService.findAllPlanets(page, size));
+			Optional<List<Planet>> planets = Optional.of(planetService.findAllPlanets(page, size));
 
-			var bodyIfNull = ResponseDTO.responseGenerator(HttpStatus.NOT_FOUND.value(),
-					Arrays.asList(new ErrorType(Constants.PLANET_NOT_FOUND)));
-			
-			var bodyIfNotNull = ResponseDTO.responseGenerator(HttpStatus.OK.value(), planetsResponse);
-	
-			return Validation.planetResponse(planetsResponse, bodyIfNull, bodyIfNotNull);
-			
+			Optional<List<PlanetResponse>> planetsResponse = converter.toPlanetResponse(planets);
+
+			if (planetsResponse == null) {
+
+				HashMap<String, String> body = new HashMap<>();
+				body.put(Constants.MESSAGE, Constants.PLANET_NOT_FOUND);
+
+				var responseIfplanetsNull = ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+
+				return responseIfplanetsNull;
+
+			}
+
+			var responseIfplanetsNotNull = ResponseEntity.ok().body(planetsResponse);
+
+			return responseIfplanetsNotNull;
+
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			return ServerTreatment.response();
 		}
 	}
 
-	@GetMapping(path = "{name}", produces = APPLICATION_JSON_VALUE)
-	@ApiOperation(value = "Get planet by name.")
-	public ResponseEntity<ResponseDTO> findPlanetByName(@RequestParam(value = "name", required = true) String name) {
+	@GetMapping(path = "planet", produces = APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Get planet by parameter.")
+	public ResponseEntity<?> findPlanetByParameter(@RequestParam(value = "name", required = true) String name) {
 
 		try {
-			Optional<PlanetResponse> planetResponse = planetService.findPlanetByName(name);
+			Optional<Planet> planet = planetService.findPlanetByName(name);
 
-			var bodyIfNull = ResponseDTO.responseGenerator(HttpStatus.NOT_FOUND.value(),
-					Arrays.asList(new ErrorType(Constants.PLANET_NOT_FOUND)));
+			if (planet == null) {
 
-			var bodyIfNotNull = ResponseDTO.responseGenerator(HttpStatus.OK.value(), planetResponse);
+				HashMap<String, String> body = new HashMap<>();
+				body.put(Constants.MESSAGE, Constants.PLANET_NOT_FOUND);
 
-			return Validation.planetResponse(planetResponse, bodyIfNull, bodyIfNotNull);
+				var responseIfPlanetNull = ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+
+				return responseIfPlanetNull;
+
+			}
+
+			Optional<PlanetResponse> planetResponse = converter.toPlanetResponse(planet.get());
+
+			var responseIfPlanetNotNull = ResponseEntity.ok().body(planetResponse);
+
+			return responseIfPlanetNotNull;
 
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -83,19 +104,28 @@ public class PlanetResource {
 
 	}
 
-	@GetMapping(path = "{id}", produces = APPLICATION_JSON_VALUE)
+	@GetMapping(path = "planet/{id}", produces = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Get planet by Id.")
-	public ResponseEntity<ResponseDTO> findPlanetById(@RequestParam(value = "id", required = true) String id) {
+	public ResponseEntity<?> findPlanetById(@PathVariable(value = "id", required = true) String id) {
 
 		try {
-			Optional<PlanetResponse> planetResponse = planetService.findPlanetByID(id);
+			Optional<Planet> planet = planetService.findPlanetByID(id);
 
-			var bodyIfNull = ResponseDTO.responseGenerator(HttpStatus.NOT_FOUND.value(),
-					Arrays.asList(new ErrorType(Constants.PLANET_NOT_FOUND)));
+			if (planet == null) {
 
-			var bodyIfNotNull = ResponseDTO.responseGenerator(HttpStatus.OK.value(), planetResponse);
+				HashMap<String, String> body = new HashMap<>();
+				body.put(Constants.MESSAGE, Constants.PLANET_NOT_FOUND);
 
-			return Validation.planetResponse(planetResponse, bodyIfNull, bodyIfNotNull);
+				var responseIfPlanetNull = ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+
+				return responseIfPlanetNull;
+			}
+
+			Optional<PlanetResponse> planetResponse = converter.toPlanetResponse(planet.get());
+
+			var responseIfPlanetNotNull = ResponseEntity.ok().body(planetResponse);
+
+			return responseIfPlanetNotNull;
 
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -104,21 +134,28 @@ public class PlanetResource {
 
 	}
 
-	@PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
+	@PostMapping(path = "planet", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Create Planet.")
-	public ResponseEntity<ResponseDTO> createPlanet(@RequestBody @Valid PlanetRequest planetRequest 
-		) {
-		
-		Optional<PlanetResponse> planetResponse = planetService.createPlanet(planetRequest);
-		try {
-			
+	public ResponseEntity<?> createPlanet(@RequestBody @Valid PlanetRequest planetRequest) {
 
-			var bodyIfNull = ResponseDTO.responseGenerator(HttpStatus.BAD_REQUEST.value(),
-					Arrays.asList(new ErrorType(Constants.PLANET_EXIST)));
-			
-			var bodyIfNotNull = ResponseDTO.responseGenerator(HttpStatus.CREATED.value(), planetResponse);
-			
-			return Validation.planetResponse(planetResponse, bodyIfNull, bodyIfNotNull);
+		Optional<Planet> planet = planetService.createPlanet(planetRequest);
+		try {
+
+			if (planet == null) {
+
+				HashMap<String, String> body = new HashMap<>();
+				body.put(Constants.MESSAGE, Constants.PLANET_EXIST);
+
+				var responseIfPlanetNull = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+
+				return responseIfPlanetNull;
+			}
+
+			Optional<PlanetResponse> planetResponse = converter.toPlanetResponse(planet.get());
+
+			var responseIfPlanetNotNull = ResponseEntity.status(HttpStatus.CREATED).body(planetResponse);
+
+			return responseIfPlanetNotNull;
 
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -129,20 +166,28 @@ public class PlanetResource {
 
 	@DeleteMapping(path = "{id}", produces = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Delete Planet by Id.")
-	public ResponseEntity<ResponseDTO> deletePlanetById(@RequestParam(value = "id", required = true) String id) {
+	public ResponseEntity<?> deletePlanetById(@RequestParam(value = "id", required = true) String id) {
 
 		try {
-			
+
 			Boolean wasDeleted = planetService.deletePlanById(id);
-			
-			var bodyIfWasNotDeleted = ResponseDTO.responseGenerator(
-					HttpStatus.NOT_FOUND.value(), Arrays.asList(new ErrorType(Constants.PLANET_NOT_FOUND)));
-			
-			var bodyIfDeleted = ResponseDTO.responseGenerator(HttpStatus.OK.value(), Constants.PLANET_DELETED);
-			
-			
-			return Validation.planetDeleted(wasDeleted, bodyIfDeleted, bodyIfWasNotDeleted);
-			
+
+			if (wasDeleted.equals(Constants.FALSE)) {
+
+				HashMap<String, String> body = new HashMap<>();
+				body.put(Constants.MESSAGE, Constants.PLANET_NOT_FOUND);
+
+				var responseIfWasNotDeleted = ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+
+				return responseIfWasNotDeleted;
+			}
+
+			HashMap<String, String> body = new HashMap<>();
+			body.put(Constants.MESSAGE, Constants.PLANET_DELETED);
+
+			var responseIfWasDeleted = ResponseEntity.ok().body(body);
+
+			return responseIfWasDeleted;
 
 		} catch (Exception e) {
 			log.error(e.getMessage());

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -21,11 +22,10 @@ public class ResponseDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = -7057856486637859540L;
 
+	@JsonIgnore
 	private int statusCode;
 
 	private String message;
-	
-	private Boolean success;
 
 	private List<ErrorType> messages;
 
@@ -35,7 +35,6 @@ public class ResponseDTO implements Serializable {
 		super();
 		this.statusCode = statusCode;
 		this.result = resultado;
-		this.success = true;
 	}
 
 	public ResponseDTO(int statusCode, List<ErrorType> messages) {
@@ -43,7 +42,6 @@ public class ResponseDTO implements Serializable {
 		this.statusCode = statusCode;
 		addMessages(messages);
 		this.messages = messages;
-		this.success = false;
 	}
 	
 
@@ -58,8 +56,8 @@ public class ResponseDTO implements Serializable {
 		return new ResponseDTO(statusCode, messages);
 	}
 
-	public static ResponseDTO responseGenerator(int statusCode, Object resultado) {
-		return new ResponseDTO(statusCode, resultado);
+	public static ResponseDTO responseGenerator(int statusCode, Object result) {
+		return new ResponseDTO(statusCode, result);
 	}
 
 
