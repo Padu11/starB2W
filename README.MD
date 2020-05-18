@@ -14,6 +14,7 @@ Observações:
  - O path raiz pode ser alterado no arquivo application.yml, em <b>server.servlet.context-path<b>.
  - A porta pode ser alterada no arquivo application.yml, em <b>server.port<b>.
  - Pode ser encontrado no path [/swagger-ui.html#/](http://localhost:8080/starB2W/swagger-ui.html#/) informações sobre os recursos da aplicação.
+ - Pode ser encontrado a collection no PostMan, através do link: [Collection - PostMan](https://www.getpostman.com/collections/8a3d5017a28d81807c09)
 
 **A API StarB2W esta em constante evolução e até o momento foram utilizados no desenvolvimento:**
 
