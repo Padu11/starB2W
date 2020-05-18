@@ -40,6 +40,8 @@ public final class Constants {
 
 	public static final String MESSAGE = "MESSAGE: ";
 
+	public static final String LIST_PLANETS_EMPTY = "There are no registered planets.";
+
 
 	
 }

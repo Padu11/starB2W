@@ -39,12 +39,12 @@ public class PlanetService {
 
 		log.info(("Searching all the planets."));
 		Pageable pageable = this.creatingPagination(page, size);
-		List<Planet> planets = planetRepository.findAll(pageable).getContent();;
+		List<Planet> planets = planetRepository.findAll(pageable).getContent();
 
 		if (planets.isEmpty()) {
 			planets = planetRepository.findAll();
 			if (planets.isEmpty()) {
-				return null;
+				return planets;
 			}
 		}
 
@@ -77,7 +77,7 @@ public class PlanetService {
 			String movieAppearances = this.checkForMovieAppearances(planetName);
 
 			planet.get().setMovieAppearances(movieAppearances);
-			
+
 			return planet;
 		}
 
@@ -96,10 +96,10 @@ public class PlanetService {
 			String movieAppearances = this.checkForMovieAppearances(planetName);
 
 			Optional<Planet> planet = converter.requestToPlanet(planetRequest, movieAppearances);
-
+			
 			log.info("Creating planet {}.", planet.get().getName());
 			planet = Optional.of(planetRepository.save(planet.get()));
-
+			
 			return planet;
 
 		}
@@ -108,12 +108,11 @@ public class PlanetService {
 
 	}
 
-	private String checkForMovieAppearances(String planet) {
+	public String checkForMovieAppearances(String planet) {
 		try {
 			SwapiResponse response = swapiGateway.findPlanetByName(planet);
 
-			if (response.getResults().isEmpty() || 
-					response.getResults() == null) {
+			if (response.getResults().isEmpty() || response.getResults() == null) {
 				return String.valueOf(Constants.ZERO);
 			}
 

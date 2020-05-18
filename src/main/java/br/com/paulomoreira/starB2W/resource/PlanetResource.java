@@ -50,18 +50,18 @@ public class PlanetResource {
 		try {
 			Optional<List<Planet>> planets = Optional.of(planetService.findAllPlanets(page, size));
 
-			Optional<List<PlanetResponse>> planetsResponse = converter.toPlanetResponse(planets);
-
-			if (planetsResponse == null) {
+			if (planets.get().isEmpty()) {
 
 				HashMap<String, String> body = new HashMap<>();
-				body.put(Constants.MESSAGE, Constants.PLANET_NOT_FOUND);
+				body.put(Constants.MESSAGE, Constants.LIST_PLANETS_EMPTY);
 
 				var responseIfplanetsNull = ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
 
 				return responseIfplanetsNull;
 
 			}
+			
+			Optional<List<PlanetResponse>> planetsResponse = converter.toPlanetResponse(planets);
 
 			var responseIfplanetsNotNull = ResponseEntity.ok().body(planetsResponse);
 
@@ -164,9 +164,9 @@ public class PlanetResource {
 
 	}
 
-	@DeleteMapping(path = "{id}", produces = APPLICATION_JSON_VALUE)
+	@DeleteMapping(path = "planet/{id}", produces = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Delete Planet by Id.")
-	public ResponseEntity<?> deletePlanetById(@RequestParam(value = "id", required = true) String id) {
+	public ResponseEntity<?> deletePlanetById(@PathVariable(value = "id", required = true) String id) {
 
 		try {
 
