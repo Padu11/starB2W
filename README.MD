@@ -14,8 +14,9 @@ Observações:
  - O path raiz pode ser alterado no arquivo application.yml, em <b>server.servlet.context-path<b>.
  - A porta pode ser alterada no arquivo application.yml, em <b>server.port<b>.
  - Pode ser encontrado no path [/swagger-ui.html#/](http://localhost:8080/starB2W/swagger-ui.html#/) informações sobre os recursos da aplicação.
+ - Pode ser encontrado a collection no PostMan, através do link: [Collection - PostMan](https://www.getpostman.com/collections/8a3d5017a28d81807c09) 
 
-**A API StarB2W esta em constante evolução e até o momento foram utilizados no desenvolvimento:**
+**A API StarB2W está em constante evolução e até o momento foram utilizados no desenvolvimento:**
 
  - Linguagem de programação Java (JDK 11);
  - Apache Maven;
@@ -26,20 +27,28 @@ Observações:
  - Spring Boot Starter Data Mongodb (2.2.7 Release);
  - Spring Boot DevTools (2.2.7 Release);
  - Junit;
+ - Mock/Mockito
  - Open Feign (2.2.2 Release);
  - LomBok (1.18.12).
  - Docker
 
+## **Tests:**
+
+Para rodar os testes da aplicação é necessário ter o Maven instalado e digitar o comando abaixo no shell:
+
+> mvn test
+
+É necessário estar dentro da pasta da aplicação.
+
 ## **Docker:**
 Para rodar a aplicação com o Docker é necessário como pré requisito ter instalados Docker & Docker Compose.
 
-No shell, dentro da pasta da aplicação, deve ser gerado o jar, através do comando: 
+No shell, dentro da pasta da aplicação,  basta digitar:
 
-    mvn package
-
-Posterior a geração do .jar basta digitar no shell o comando:
-
-    docker-compose up --build
+> docker-compose down && 
+> mvn clean install && 
+> mvn package && 
+> docker-compose up --build
 
 _______
 
@@ -143,6 +152,31 @@ Se houver erro no consumo da API Swapi durante a requisição POST, é retornand
 
 ______
 
+**[POST] /v1/planet/{name}**
+Cadastrar planeta. Deve ser passado na url da requisição a variável "name". Nesta requisição a API starB2W consome a API Swapi buscando o planeta pelo nome, se o planeta for encontrado, os dados são persistidos no banco e o retorno tem status 201 Created , em caso negativo o retorno é 404 Not Found. No caso do planeta já se encontrar cadastrado no banco de dados da API starB2W, o retorno é 400 Bad Request.
+
+**Exemplo curl:**
+
+    curl -X POST "http://localhost:8080/starB2W/v1/planet/Tatooine" -H "accept: application/json"
+
+**Modelo de objeto de retorno em caso de sucesso (Status Code 201):**
+
+> {  "id":  "5ec2fdb7c599de3b7c7572dc", 
+>  "name":  "Alderaan",  
+>  "climate":  "temperate",  
+>  "terrain":  "grasslands, mountains",  
+>  "movieAppearances":  null 
+>   }
+
+**Modelo de objeto de retorno em caso de não encontrado (Status Code 404):**
+
+> {  "MESSAGE:":  "Planet not found."  }
+
+**Modelo de objeto de retorno em caso de planeta já cadastrado (Status Code 400):**
+
+> {  "MESSAGE:":  "This planet has already been created."  }
+
+_____
 **[DELETE] /v1/planet/{id}**
 Deletar planeta. Deve ser passado o id do planeta como variável na url.
 
