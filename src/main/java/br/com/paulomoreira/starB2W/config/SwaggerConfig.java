@@ -29,7 +29,7 @@ public class SwaggerConfig {
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
 			.title("Star Wars Planets API")
-			.description("This API is used to control the planets of Star Wars.")
+			.description("This API is used to manage the planets of Star Wars.")
 			.version("1.0.0")
 			//.termsOfServiceUrl("Terms of service")
 			//.contact(new Contact())
