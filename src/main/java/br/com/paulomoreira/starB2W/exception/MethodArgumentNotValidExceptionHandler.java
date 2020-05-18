@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import br.com.paulomoreira.starB2W.dto.ErrorType;
-import br.com.paulomoreira.starB2W.dto.ResponseDTO;
 import br.com.paulomoreira.starB2W.util.Constants;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -28,14 +26,13 @@ public class MethodArgumentNotValidExceptionHandler {
 	@ResponseStatus(BAD_REQUEST)
 	@ResponseBody
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ResponseDTO> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
+	public ResponseEntity<?> methodArgumentNotValidException(MethodArgumentNotValidException ex) {
 		BindingResult result = ex.getBindingResult();
 		List<FieldError> fieldErrors = result.getFieldErrors();
 		return processFieldErrors(fieldErrors);
 	}
 
-	private ResponseEntity<ResponseDTO> processFieldErrors(
-			List<FieldError> fieldErrors) {
+	private ResponseEntity<?> processFieldErrors(List<FieldError> fieldErrors) {
 
 		List<ErrorType> messages = new ArrayList<>();
 
@@ -48,8 +45,7 @@ public class MethodArgumentNotValidExceptionHandler {
 
 		}
 
-		return ResponseEntity.badRequest()
-				.body(ResponseDTO.responseGenerator(HttpStatus.BAD_REQUEST.value(), messages));
+		return ResponseEntity.badRequest().body(messages);
 
 	}
 
