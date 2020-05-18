@@ -209,5 +209,47 @@ public class PlanetResourceTest {
 		.statusCode(HttpStatus.NOT_FOUND.value());
 	}
 	
+	@Test
+	public void returnSucess_whenPostPlanetByName_andPlanetNotExist() throws JsonProcessingException {
+
+		Optional<Planet> planet = Optional.of(new Planet());
+		
+		when(this.planetService.createPlanetByName("name")).thenReturn(planet);
+
+		given()
+		.accept(ContentType.JSON)
+		.when()
+		.post("/v1/planet/name").then()
+		.statusCode(HttpStatus.CREATED.value());
+	}
+	
+	@Test
+	public void returnBadRequest_whenPostPlanetByName_andPlanetExist() throws JsonProcessingException {
+
+		Optional<Planet> planet = Optional.empty();
+		
+		when(this.planetService.createPlanetByName("name")).thenReturn(planet);
+
+		given()
+		.accept(ContentType.JSON)
+		.when()
+		.post("/v1/planet/name").then()
+		.statusCode(HttpStatus.BAD_REQUEST.value());
+	}
+	
+	@Test
+	public void returnNotFound_whenPostPlanetByName_andPlanetNotFound() throws JsonProcessingException {
+
+		Optional<Planet> planet = null;
+		
+		when(this.planetService.createPlanetByName("name")).thenReturn(planet);
+
+		given()
+		.accept(ContentType.JSON)
+		.when()
+		.post("/v1/planet/name").then()
+		.statusCode(HttpStatus.NOT_FOUND.value());
+	}
+	
 
 };
