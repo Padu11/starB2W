@@ -28,6 +28,8 @@ import br.com.paulomoreira.starB2W.util.Constants;
 import br.com.paulomoreira.starB2W.util.Converter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -44,6 +46,9 @@ public class PlanetResource {
 
 	@GetMapping(path = "planets", produces = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Get all planets.")
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Search Success."),
+			@ApiResponse(code = 404, message = "The list of planet is empty.")})
 	public ResponseEntity<?> findAllPlanets(@RequestParam(defaultValue = "1", required = false) Integer page,
 			@RequestParam(defaultValue = "10", required = false) Integer size) {
 
@@ -75,6 +80,9 @@ public class PlanetResource {
 
 	@GetMapping(path = "planet", produces = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Get planet by parameter.")
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Search Success."),
+			@ApiResponse(code = 404, message = "The list planet was not found.")})
 	public ResponseEntity<?> findPlanetByParameter(@RequestParam(value = "name", required = true) String name) {
 
 		try {
@@ -106,6 +114,9 @@ public class PlanetResource {
 
 	@GetMapping(path = "planet/{id}", produces = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Get planet by Id.")
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Search Success."),
+			@ApiResponse(code = 404, message = "The list of planet was not found.")})
 	public ResponseEntity<?> findPlanetById(@PathVariable(value = "id", required = true) String id) {
 
 		try {
@@ -136,6 +147,9 @@ public class PlanetResource {
 
 	@PostMapping(path = "planet", produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Create Planet.")
+	@ApiResponses(value = { 
+			@ApiResponse(code = 201, message = "Created Successfully."),
+			@ApiResponse(code = 400, message = "The planet exist or some attribute sent is null.")})
 	public ResponseEntity<?> createPlanet(@RequestBody @Valid PlanetRequest planetRequest) {
 
 		Optional<Planet> planet = planetService.createPlanet(planetRequest);
@@ -164,8 +178,13 @@ public class PlanetResource {
 
 	}
 
+	
 	@PostMapping(path = "planet/{name}", produces = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Create Planet finding in Swapi API by name.")
+	@ApiResponses(value = { 
+			@ApiResponse(code = 201, message = "Created Successfully."),
+			@ApiResponse(code = 400, message = "The planet exist."),
+			@ApiResponse(code = 404, message = "The planet was not found.")})
 	public ResponseEntity<?> createPlanetByName(@PathVariable(value = "name", required = true) String name) {
 
 		Optional<Planet> planet = planetService.createPlanetByName(name);
@@ -198,6 +217,9 @@ public class PlanetResource {
 
 	@DeleteMapping(path = "planet/{id}", produces = APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Delete Planet by Id.")
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Deleted Successfully."),
+			@ApiResponse(code = 404, message = "The planet was not found.")})
 	public ResponseEntity<?> deletePlanetById(@PathVariable(value = "id", required = true) String id) {
 
 		try {
