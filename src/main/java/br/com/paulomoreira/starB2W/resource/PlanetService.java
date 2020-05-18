@@ -96,15 +96,49 @@ public class PlanetService {
 			String movieAppearances = this.checkForMovieAppearances(planetName);
 
 			Optional<Planet> planet = converter.requestToPlanet(planetRequest, movieAppearances);
-			
+
 			log.info("Creating planet {}.", planet.get().getName());
 			planet = Optional.of(planetRepository.save(planet.get()));
-			
+
 			return planet;
 
 		}
 
 		return null;
+
+	}
+
+	public Optional<Planet> createPlanetByName(String planetName) {
+
+		Boolean planetExists = validation.checkIfPlanetExistInDatabase(planetName);
+
+		if (planetExists == false) {
+
+			try {
+				SwapiResponse response = swapiGateway.findPlanetByName(planetName);
+
+				if (response.getResults().isEmpty()) {
+					return null;
+				}
+
+				Optional<Planet> planet = Optional.of(new Planet());
+
+				planet.get().setName(response.getResults().get(0).getName());
+				planet.get().setClimate(response.getResults().get(0).getClimate());
+				planet.get().setTerrain(response.getResults().get(0).getTerrain());
+
+				planet = Optional.of(planetRepository.save(planet.get()));
+
+				return planet;
+
+			} catch (FeignException e) {
+				log.error(e.getMessage());
+				return null;
+			}
+
+		}
+		 Optional<Planet> emptyPlanet = Optional.empty();
+		 return emptyPlanet;
 
 	}
 

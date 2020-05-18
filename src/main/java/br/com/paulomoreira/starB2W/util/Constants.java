@@ -38,7 +38,7 @@ public final class Constants {
 
 	public static final String ERROR_FIND = "It was not possible to perform the search with described sort and page parameters.";
 
-	public static final String MESSAGE = "MESSAGE: ";
+	public static final String MESSAGE = "MESSAGE:";
 
 	public static final String LIST_PLANETS_EMPTY = "There are no registered planets.";
 

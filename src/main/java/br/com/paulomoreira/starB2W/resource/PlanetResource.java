@@ -60,7 +60,7 @@ public class PlanetResource {
 				return responseIfplanetsNull;
 
 			}
-			
+
 			Optional<List<PlanetResponse>> planetsResponse = converter.toPlanetResponse(planets);
 
 			var responseIfplanetsNotNull = ResponseEntity.ok().body(planetsResponse);
@@ -161,6 +161,38 @@ public class PlanetResource {
 			log.error(e.getMessage());
 			return ServerTreatment.response();
 		}
+
+	}
+
+	@PostMapping(path = "planet/{name}", produces = APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Create Planet finding in Swapi API by name.")
+	public ResponseEntity<?> createPlanetByName(@PathVariable(value = "name", required = true) String name) {
+
+		Optional<Planet> planet = planetService.createPlanetByName(name);
+
+		if (planet == null) {
+			HashMap<String, String> body = new HashMap<>();
+			body.put(Constants.MESSAGE, Constants.PLANET_NOT_FOUND);
+
+			var responseIfPlanetNull = ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+
+			return responseIfPlanetNull;
+
+		}
+		if (planet.isEmpty()) {
+
+			HashMap<String, String> body = new HashMap<>();
+			body.put(Constants.MESSAGE, Constants.PLANET_EXIST);
+
+			var responseIfPlanetWasCreated = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+
+			return responseIfPlanetWasCreated;
+		}
+		Optional<PlanetResponse> planetResponse = converter.toPlanetResponse(planet.get());
+
+		var responseIfPlanetNotNull = ResponseEntity.status(HttpStatus.CREATED).body(planetResponse);
+
+		return responseIfPlanetNotNull;
 
 	}
 
