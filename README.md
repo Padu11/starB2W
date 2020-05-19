@@ -20,7 +20,7 @@ Observações:
 
  - Linguagem de programação Java (JDK 11);
  - Apache Maven;
- - Spring Boot (2.2.7 Release);
+ - Spring Boot (2.2.7 Release); 
  - Swagger (2.9.2);
  - Hibernate Validator (5.4.2 Final);
  - Spring Boot Starter Data JPA (2.2.7 Release);
