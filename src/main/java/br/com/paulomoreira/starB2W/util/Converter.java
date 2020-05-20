@@ -1,5 +1,6 @@
 package br.com.paulomoreira.starB2W.util;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import br.com.paulomoreira.starB2W.dto.PlanetPageResponse;
 import br.com.paulomoreira.starB2W.dto.PlanetRequest;
 import br.com.paulomoreira.starB2W.dto.PlanetResponse;
 import br.com.paulomoreira.starB2W.model.Planet;
@@ -23,10 +25,13 @@ public class Converter {
 		if (planet.isPresent()) {
 			PlanetResponse planetResponse = new PlanetResponse();
 
+			List<String> climatesLowerCase = this.listToLowerCase(planet.get().getClimates());
+			List<String> terrainsLowerCase = this.listToLowerCase(planet.get().getTerrains());
+
 			planetResponse.setId(planet.get().getId());
 			planetResponse.setName(planet.get().getName());
-			planetResponse.setClimate(planet.get().getClimate());
-			planetResponse.setTerrain(planet.get().getTerrain());
+			planetResponse.setClimates(climatesLowerCase);
+			planetResponse.setTerrains(terrainsLowerCase);
 
 			movieAppearances = Validation.movieAppearances(movieAppearances);
 			planetResponse.setMovieAppearances(movieAppearances);
@@ -40,13 +45,15 @@ public class Converter {
 
 	public Optional<PlanetResponse> toPlanetResponse(Planet planet) {
 
-		if (Optional.of(planet).isPresent()) {
+		if (!(planet == null)) {
 			PlanetResponse planetResponse = new PlanetResponse();
 
+			List<String> climatesLowerCase = this.listToLowerCase(planet.getClimates());
+			List<String> terrainsLowerCase = this.listToLowerCase(planet.getTerrains());
 			planetResponse.setId(planet.getId());
 			planetResponse.setName(planet.getName());
-			planetResponse.setClimate(planet.getClimate());
-			planetResponse.setTerrain(planet.getTerrain());
+			planetResponse.setClimates(climatesLowerCase);
+			planetResponse.setTerrains(terrainsLowerCase);
 			planetResponse.setMovieAppearances(planet.getMovieAppearances());
 
 			return Optional.of(planetResponse);
@@ -56,16 +63,48 @@ public class Converter {
 
 	}
 
+	public Optional<PlanetPageResponse> toPlanetResponse(Optional<List<Planet>> planets, Integer totalPages) {
+		
+		
+		if (planets.isPresent()) {
+			
+			PlanetPageResponse planetsPage = new PlanetPageResponse();
+
+			List<PlanetResponse> planetsResponse = planets.get().stream().map(PlanetResponse::new)
+					.collect(Collectors.toList());
+			
+			planetsPage.setResult(planetsResponse);
+			planetsPage.setTotalPages(totalPages);
+			
+
+			return Optional.of(planetsPage);
+
+		}
+
+	return null;
+
+	}
+
 	public Optional<Planet> requestToPlanet(PlanetRequest planetRequest, String movieAppearances) {
 
 		Planet planet = new Planet();
 
+		List<String> climatesLowerCase = this.listToLowerCase(planetRequest.getClimates());
+		List<String> terrainLowerCase = this.listToLowerCase(planetRequest.getTerrains());
+		
 		planet.setName(planetRequest.getName().toLowerCase());
-		planet.setTerrain(planetRequest.getTerrain().toLowerCase());
-		planet.setClimate(planetRequest.getClimate().toLowerCase());
+		planet.setTerrains(terrainLowerCase);
+		planet.setClimates(climatesLowerCase);
 		planet.setMovieAppearances(movieAppearances);
 
 		return Optional.of(planet);
+	}
+
+	public List<String> listToLowerCase(List<String> list) {
+
+		List<String> listLowerCase = list.stream().map(String::toLowerCase).collect(Collectors.toList());
+
+		return listLowerCase;
 	}
 
 	public Optional<List<PlanetResponse>> toPlanetResponse(Optional<List<Planet>> planets) {
@@ -92,4 +131,30 @@ public class Converter {
 
 		return planetsResponse;
 	}
+
+	public List<String> climateToList(String climate) {
+
+		climate = climate.replace(", ", ",");
+
+		String[] climates = climate.split(",");
+
+		List<String> climatesArray = Arrays.asList(climates);
+
+		return climatesArray;
+
+	}
+
+	public List<String> terrainsToList(String terrain) {
+
+		terrain = terrain.replace(", ", ",");
+
+		String[] terrains = terrain.split(",");
+
+		List<String> terrainArray = Arrays.asList(terrains);
+
+		terrainArray = terrainArray.stream().map(c -> c.replace(" ", "")).collect(Collectors.toList());
+
+		return terrainArray;
+	}
+
 }
