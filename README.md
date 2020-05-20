@@ -1,5 +1,5 @@
 <h1> DESAFIO B2W | API STAR WARS <h1>
-## API de gerenciamento de planetas do Star Wars!
+<h2> API de gerenciamento de planetas do Star Wars! <h2>
 Update date: 2020-05-17.
 
 ![Star Wars](https://cdn.pocket-lint.com/r/s/1200x/assets/images/147767-tv-feature-what-order-should-you-watch-all-the-star-wars-films-image1-1wdfjceytb.jpg)
