@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.paulomoreira.starB2W.StarB2WApplication;
 import br.com.paulomoreira.starB2W.dto.PlanetRequest;
+import br.com.paulomoreira.starB2W.exception.AttributeException;
 import br.com.paulomoreira.starB2W.model.Planet;
 import br.com.paulomoreira.starB2W.resource.PlanetResource;
 import br.com.paulomoreira.starB2W.resource.PlanetService;
@@ -44,19 +47,19 @@ public class PlanetResourceTest {
 	}
 
 	@Test
-	public void returnSuccess_whenCreatePlanet() throws JsonProcessingException {
+	public void returnSuccess_whenCreatePlanet() throws JsonProcessingException, AttributeException {
 
 		PlanetRequest planetRequest = new PlanetRequest();
 		planetRequest.setName("name");
-		planetRequest.setClimate("climate");
-		planetRequest.setTerrain("terrain");
+		planetRequest.setClimates(Arrays.asList("climate"));
+		planetRequest.setTerrains(Arrays.asList("terrain"));
 
 		Optional<Planet> planet = Optional.of(new Planet());
 		planet.get().setId("1");
 		planet.get().setMovieAppearances("1");
 		planet.get().setName(planetRequest.getName());
-		planet.get().setClimate(planetRequest.getClimate());
-		planet.get().setTerrain(planetRequest.getTerrain());
+		planet.get().setClimates(planetRequest.getClimates());
+		planet.get().setTerrains(planetRequest.getTerrains());
 
 		when(this.planetService.createPlanet(planetRequest)).thenReturn(planet);
 
@@ -69,11 +72,11 @@ public class PlanetResourceTest {
 	}
 
 	@Test
-	public void returnBadRequest_whenCreatePlanet_butPlanetExists() throws JsonProcessingException {
+	public void returnBadRequest_whenCreatePlanet_butPlanetExists() throws JsonProcessingException, AttributeException {
 		PlanetRequest planetRequest = new PlanetRequest();
 		planetRequest.setName("name");
-		planetRequest.setClimate("climate");
-		planetRequest.setTerrain("terrain");
+		planetRequest.setClimates(Arrays.asList("arid"));
+		planetRequest.setTerrains(Arrays.asList("terrain"));
 
 		when(this.planetService.createPlanet(planetRequest)).thenReturn(null);
 
@@ -91,17 +94,18 @@ public class PlanetResourceTest {
 		planet.get().setId("1");
 		planet.get().setMovieAppearances("1");
 		planet.get().setName("name");
-		planet.get().setClimate("climate");
-		planet.get().setTerrain("terrain");
+		planet.get().setClimates(Arrays.asList("arid"));
+		planet.get().setTerrains(Arrays.asList("terrain"));
 		
 		
 		List<Planet> planets = Arrays.asList(planet.get());
+		Page<Planet> planetsPage = new PageImpl<Planet>(planets);
 
-		when(this.planetService.findAllPlanets(10, 1)).thenReturn(planets);
+		when(this.planetService.findAllPlanets(1)).thenReturn(planetsPage);
 
 		given()
 		.accept(ContentType.JSON)
-		.when().get("/v1/planets?page=10&size=1").then()
+		.when().get("/v1/planets?page=1").then()
 				.statusCode(HttpStatus.OK.value());
 	}
 	
@@ -112,17 +116,17 @@ public class PlanetResourceTest {
 		planet.get().setId("1");
 		planet.get().setMovieAppearances("1");
 		planet.get().setName("name");
-		planet.get().setClimate("climate");
-		planet.get().setTerrain("terrain");
+		planet.get().setClimates(Arrays.asList("arid"));
+		planet.get().setTerrains(Arrays.asList("terrain"));
 		
 		
 		List<Planet> planets = Arrays.asList();
-
-		when(this.planetService.findAllPlanets(10, 1)).thenReturn(planets);
+		Page<Planet> planetsPage = new PageImpl<Planet>(planets);
+		when(this.planetService.findAllPlanets(1)).thenReturn(planetsPage);
 
 		given()
 		.accept(ContentType.JSON)
-		.when().get("/v1/planets?page=10&size=1").then()
+		.when().get("/v1/planets?page=1").then()
 				.statusCode(HttpStatus.NOT_FOUND.value());
 	}
 	
@@ -133,8 +137,8 @@ public class PlanetResourceTest {
 		planet.get().setId("1");
 		planet.get().setMovieAppearances("1");
 		planet.get().setName("name");
-		planet.get().setClimate("climate");
-		planet.get().setTerrain("terrain");
+		planet.get().setClimates(Arrays.asList("arid"));
+		planet.get().setTerrains(Arrays.asList("terrain"));
 		
 
 		when(this.planetService.findPlanetByID("1")).thenReturn(planet);
@@ -163,8 +167,8 @@ public class PlanetResourceTest {
 		planet.get().setId("1");
 		planet.get().setMovieAppearances("1");
 		planet.get().setName("name");
-		planet.get().setClimate("climate");
-		planet.get().setTerrain("terrain");
+		planet.get().setClimates(Arrays.asList("arid"));
+		planet.get().setTerrains(Arrays.asList("terrain"));
 		
 
 		when(this.planetService.findPlanetByID("1")).thenReturn(planet);
