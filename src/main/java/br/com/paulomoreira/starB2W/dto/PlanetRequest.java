@@ -1,5 +1,7 @@
 package br.com.paulomoreira.starB2W.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -15,11 +17,11 @@ public class PlanetRequest {
 	
 	@ApiModelProperty(position = 2)
 	@NotNull
-	private String climate;
+	private List<String> climates;
 	
 	@ApiModelProperty(position = 3)
 	@NotNull
-	private String terrain;
+	private List<String> terrains;
 	
 	public PlanetRequest() {
 	}

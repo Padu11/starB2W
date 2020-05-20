@@ -1,5 +1,7 @@
 package br.com.paulomoreira.starB2W.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
@@ -16,10 +18,10 @@ public class Planet {
 	private String name;
 	
 	@NotNull
-	private String climate;
+	private List<String> climates;
 	
 	@NotNull
-	private String terrain;
+	private List<String> terrains;
 	
 	@NotNull
 	private String movieAppearances;

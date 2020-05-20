@@ -1,4 +1,4 @@
-package br.com.paulomoreira.starB2W.resource;
+package br.com.paulomoreira.starB2W.resource.repository;
 
 import java.util.Optional;
 
@@ -8,11 +8,9 @@ import org.springframework.stereotype.Repository;
 import br.com.paulomoreira.starB2W.model.Planet;
 
 @Repository
-public interface PlanetRepository extends MongoRepository<Planet, Long> {
+public interface PlanetRepository extends MongoRepository<Planet, String> {
 
 	Optional<Planet> findById(String id);
-
-	Long deleteById(String id);
 
 	Optional<Planet> findByName(String name);
 

@@ -1,5 +1,7 @@
 package br.com.paulomoreira.starB2W.dto;
 
+import java.util.List;
+
 import br.com.paulomoreira.starB2W.model.Planet;
 import lombok.Data;
 
@@ -10,9 +12,9 @@ public class PlanetResponse {
 	
 	private String name;
 	
-	private String climate;
+	private List<String> climates;
 	
-	private String terrain;
+	private List<String> terrains;
 	
 	private String movieAppearances;
 
@@ -24,8 +26,9 @@ public class PlanetResponse {
 		super();
 		this.id = planet.getId();
 		this.name = planet.getName();
-		this.climate = planet.getClimate();
-		this.terrain = planet.getTerrain();
+		this.climates = planet.getClimates();
+		this.terrains = planet.getTerrains();
+		this.movieAppearances = planet.getMovieAppearances();
 	}
 	
 	
