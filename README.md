@@ -1,4 +1,4 @@
-﻿﻿# DESAFIO B2W | API STAR WARS 
+<h1> DESAFIO B2W | API STAR WARS <h1>
 ## API de gerenciamento de planetas do Star Wars!
 Update date: 2020-05-17.
 
