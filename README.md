@@ -1,4 +1,4 @@
-﻿﻿# DESAFIO B2W | API STAR WARS 
+﻿﻿<h1> DESAFIO B2W | API STAR WARS <h1> 
 ## API de gerenciamento de planetas do Star Wars!
 Update date: 2020-05-17.
 
@@ -6,7 +6,7 @@ Update date: 2020-05-17.
 
 <h3>Bem vindo ao ReadMe da API StarB2W.<h3>
 
-Esta aplicação foi desenvolvida com arquitetura API REST e tem por objeto gerenciar dados de planetas do filme Star Wars. Considera-se por gerenciamento ações de cadastrar, listar e deletar dados de planetas.
+Esta aplicação foi desenvolvida com arquitetura API RESTful e tem por objeto gerenciar dados de planetas do filme Star Wars. Considera-se por gerenciamento ações de cadastrar, listar e deletar dados de planetas.
 
 **URL Base:** [http://localhost:8080/starB2W](http://localhost:8080/starB2W)
 Observações:
@@ -76,20 +76,25 @@ _______
 ## **Recursos:**
 **[GET] /v1/planets**
 Obter lista de todos os planetas.
-Pode ser passado  os parâmetros :page e size. (não obrigatório).
-Por default: page = 1 e Size = 10.
+Pode ser passado o parâmetro :page (não obrigatório).
+Se o parâmetro não for informado será retornado todos os planetas cadastrados.
+A paginação começa do número 1. Exemplo: Primeira página parametro ?page=1.
 
 **Exemplo curl:**
 
-    curl -X GET "http://localhost:8080/starB2W/v1/planets?page=1&size=10" -H "accept: application/json" 
+    curl -X GET "http://localhost:8080/starB2W/v1/planets?page=2" -H "accept: application/json" 
 
 **Modelo de objeto de retorno em caso de sucesso (Status Code 200):**
 
->[ {  "id":  "5ec579f97386f526970d3b20",  
-> "name":  "Tatooine", 
-> "climates":  [  "arid"  ],  
-> "terrains":  [  "desert"  ], 
-> "movieAppearances":  "5"  } ]
+> {  "result":  [  
+> {  "id":  "5ec5a7e1c82e3326d0b7f22e",  "name":  "Coruscant",  
+> "climates":  [  "temperate"  ],  
+> "terrains":  [  "cityscape",  "mountains"  ],  "movieAppearances":  "4"  },  
+> {  "id": "5ec5a7eac82e3326d0b7f22f",  "name":  "Kamino",  
+> "climates":  [  "temperate"  ],  
+> "terrains":  [  "ocean"  ],  "movieAppearances":  "1"
+> }  ],  
+> "totalPages":  2  }
 
 **Modelo de objeto de retorno em caso de não existir planeta cadastrado (Status Code 404):**
 
