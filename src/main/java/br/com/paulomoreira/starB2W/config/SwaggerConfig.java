@@ -31,10 +31,6 @@ public class SwaggerConfig {
 			.title("Star Wars Planets API")
 			.description("This API is used to manage the planets of Star Wars.")
 			.version("1.0.0")
-			//.termsOfServiceUrl("Terms of service")
-			//.contact(new Contact())
-			//.license("License of API")
-			//.licenseUrl("API license URL")
 			.extensions(Collections.emptyList())
 		.build();
     }
