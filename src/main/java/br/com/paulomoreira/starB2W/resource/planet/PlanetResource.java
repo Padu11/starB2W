@@ -1,4 +1,4 @@
-package br.com.paulomoreira.starB2W.resource;
+package br.com.paulomoreira.starB2W.resource.planet;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -17,16 +17,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.paulomoreira.starB2W.dto.PlanetPageResponse;
-import br.com.paulomoreira.starB2W.dto.PlanetRequest;
-import br.com.paulomoreira.starB2W.dto.PlanetResponse;
 import br.com.paulomoreira.starB2W.exception.AttributeException;
 import br.com.paulomoreira.starB2W.exception.ServerTreatment;
 import br.com.paulomoreira.starB2W.model.Planet;
+import br.com.paulomoreira.starB2W.resource.planet.dto.PlanetPageResponse;
+import br.com.paulomoreira.starB2W.resource.planet.dto.PlanetRequest;
+import br.com.paulomoreira.starB2W.resource.planet.dto.PlanetResponse;
 import br.com.paulomoreira.starB2W.util.Constants;
 import br.com.paulomoreira.starB2W.util.Converter;
 import io.swagger.annotations.Api;
@@ -153,7 +154,8 @@ public class PlanetResource {
 	@ApiOperation(value = "Create Planet.")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created Successfully."),
 			@ApiResponse(code = 400, message = "The planet exist or some attribute sent is null.") })
-	public ResponseEntity<?> createPlanet(@RequestBody @Valid PlanetRequest planetRequest) throws AttributeException {
+	public ResponseEntity<?> createPlanet(@RequestBody @Valid PlanetRequest planetRequest,
+			@RequestHeader(value = "Authorization", required = true) String authorization) throws AttributeException {
 
 		Optional<Planet> planet = planetService.createPlanet(planetRequest);
 		try {
@@ -220,7 +222,8 @@ public class PlanetResource {
 	@ApiOperation(value = "Delete Planet by Id.")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Deleted Successfully."),
 			@ApiResponse(code = 404, message = "The planet was not found.") })
-	public ResponseEntity<?> deletePlanetById(@PathVariable(value = "id", required = true) String id) {
+	public ResponseEntity<?> deletePlanetById(@PathVariable(value = "id", required = true) String id,
+			@RequestHeader(value = "Authorization", required = true) String authorization) {
 
 		try {
 

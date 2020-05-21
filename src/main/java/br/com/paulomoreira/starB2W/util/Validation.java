@@ -6,13 +6,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import br.com.paulomoreira.starB2W.model.Climate;
 import br.com.paulomoreira.starB2W.model.Planet;
-import br.com.paulomoreira.starB2W.resource.repository.ClimateRepository;
-import br.com.paulomoreira.starB2W.resource.repository.PlanetRepository;
-import br.com.paulomoreira.starB2W.resource.repository.TerrainRepository;
+import br.com.paulomoreira.starB2W.resource.climate.ClimateRepository;
+import br.com.paulomoreira.starB2W.resource.planet.PlanetRepository;
+import br.com.paulomoreira.starB2W.resource.terrain.TerrainRepository;
 import lombok.Data;
 
 @Component
@@ -27,6 +28,9 @@ public class Validation {
 
 	@Autowired
 	TerrainRepository terrainRepository;
+
+	@Value("${starB2W.jwt.secret}")
+	private String secret;
 
 	public Boolean checkIfPlanetExistInDatabaseByName(String planetName) {
 

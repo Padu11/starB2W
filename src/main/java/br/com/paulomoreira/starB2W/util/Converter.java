@@ -7,12 +7,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import br.com.paulomoreira.starB2W.dto.PlanetPageResponse;
-import br.com.paulomoreira.starB2W.dto.PlanetRequest;
-import br.com.paulomoreira.starB2W.dto.PlanetResponse;
 import br.com.paulomoreira.starB2W.model.Planet;
+import br.com.paulomoreira.starB2W.resource.planet.dto.PlanetPageResponse;
+import br.com.paulomoreira.starB2W.resource.planet.dto.PlanetRequest;
+import br.com.paulomoreira.starB2W.resource.planet.dto.PlanetResponse;
 
 @Component
 public class Converter {
@@ -155,6 +156,12 @@ public class Converter {
 		terrainArray = terrainArray.stream().map(c -> c.replace(" ", "")).collect(Collectors.toList());
 
 		return terrainArray;
+	}
+
+	public UsernamePasswordAuthenticationToken login(String email, String pass) {
+		
+		return new UsernamePasswordAuthenticationToken(email, pass);
+		
 	}
 
 }

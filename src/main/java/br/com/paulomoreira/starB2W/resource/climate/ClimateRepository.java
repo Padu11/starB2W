@@ -1,4 +1,4 @@
-package br.com.paulomoreira.starB2W.resource.repository;
+package br.com.paulomoreira.starB2W.resource.climate;
 
 import java.util.List;
 

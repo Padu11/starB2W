@@ -9,3 +9,8 @@ spring:
   main:    allow-bean-definition-overriding: true
   autoconfigure:
     exclude:    - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration  
+
+starB2W:
+  jwt:
+    expiration: 86400000
+    secret: 62&#p3Qukt8:kKlsAw]]6{M6W&fX{0nyTTb9,rUZC^XnF8:GW}B]-N0G^<d+x(j(C@r{U$QX8o@%N9+k2,emC^t<};(q6SZ9>(1

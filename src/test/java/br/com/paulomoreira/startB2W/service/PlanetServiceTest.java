@@ -20,14 +20,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import br.com.paulomoreira.starB2W.StarB2WApplication;
-import br.com.paulomoreira.starB2W.dto.PlanetRequest;
 import br.com.paulomoreira.starB2W.exception.AttributeException;
 import br.com.paulomoreira.starB2W.gateway.SwapiGateway;
 import br.com.paulomoreira.starB2W.gateway.dto.SwapiResponse;
 import br.com.paulomoreira.starB2W.gateway.dto.SwapiResultResponse;
 import br.com.paulomoreira.starB2W.model.Planet;
-import br.com.paulomoreira.starB2W.resource.PlanetService;
-import br.com.paulomoreira.starB2W.resource.repository.PlanetRepository;
+import br.com.paulomoreira.starB2W.resource.planet.PlanetRepository;
+import br.com.paulomoreira.starB2W.resource.planet.PlanetService;
+import br.com.paulomoreira.starB2W.resource.planet.dto.PlanetRequest;
 import br.com.paulomoreira.starB2W.util.Converter;
 import br.com.paulomoreira.starB2W.util.Validation;
 

@@ -14,8 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import br.com.paulomoreira.starB2W.StarB2WApplication;
-import br.com.paulomoreira.starB2W.dto.PlanetResponse;
 import br.com.paulomoreira.starB2W.model.Planet;
+import br.com.paulomoreira.starB2W.resource.planet.dto.PlanetResponse;
 import br.com.paulomoreira.starB2W.util.Converter;
 import br.com.paulomoreira.starB2W.util.Validation;
 

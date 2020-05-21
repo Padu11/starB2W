@@ -1,4 +1,4 @@
-package br.com.paulomoreira.starB2W.dto;
+package br.com.paulomoreira.starB2W.resource.planet.dto;
 
 import java.util.List;
 

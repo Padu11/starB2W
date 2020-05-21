@@ -15,8 +15,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import br.com.paulomoreira.starB2W.StarB2WApplication;
 import br.com.paulomoreira.starB2W.model.Climate;
-import br.com.paulomoreira.starB2W.resource.repository.ClimateRepository;
-import br.com.paulomoreira.starB2W.resource.repository.PlanetRepository;
+import br.com.paulomoreira.starB2W.resource.climate.ClimateRepository;
+import br.com.paulomoreira.starB2W.resource.planet.PlanetRepository;
 import br.com.paulomoreira.starB2W.util.Validation;
 
 @SpringBootTest(classes = StarB2WApplication.class)

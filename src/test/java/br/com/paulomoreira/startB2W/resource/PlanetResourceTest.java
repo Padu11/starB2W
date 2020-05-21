@@ -21,11 +21,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.paulomoreira.starB2W.StarB2WApplication;
-import br.com.paulomoreira.starB2W.dto.PlanetRequest;
 import br.com.paulomoreira.starB2W.exception.AttributeException;
 import br.com.paulomoreira.starB2W.model.Planet;
-import br.com.paulomoreira.starB2W.resource.PlanetResource;
-import br.com.paulomoreira.starB2W.resource.PlanetService;
+import br.com.paulomoreira.starB2W.resource.planet.PlanetResource;
+import br.com.paulomoreira.starB2W.resource.planet.PlanetService;
+import br.com.paulomoreira.starB2W.resource.planet.dto.PlanetRequest;
 import br.com.paulomoreira.starB2W.util.Converter;
 import io.restassured.http.ContentType;
 

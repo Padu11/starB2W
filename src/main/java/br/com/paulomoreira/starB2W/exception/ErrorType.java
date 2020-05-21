@@ -1,4 +1,4 @@
-package br.com.paulomoreira.starB2W.dto;
+package br.com.paulomoreira.starB2W.exception;
 
 import lombok.Data;
 

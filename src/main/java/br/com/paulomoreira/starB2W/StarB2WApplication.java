@@ -29,7 +29,7 @@ public class StarB2WApplication {
         MongoClient mongoClient = new MongoClient(new MongoClientURI(mongoURI));
         
         return new SpringMongockBuilder
-        		(mongoClient, "starB2W", "br.com.paulomoreira.starB2W.resource.repository.changeSets")
+        		(mongoClient, "starB2W", "br.com.paulomoreira.starB2W.resource.changeSets")
                 .setLockQuickConfig()
                 .build();
     }

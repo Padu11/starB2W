@@ -41,6 +41,12 @@ public final class Constants {
 
 	public static final String CLIMATE_INVALID = "Please enter a valid climate.";
 
-	public static final String TERRAIN_INVALID = "Please enter a valid terrain.";;
+	public static final String TERRAIN_INVALID = "Please enter a valid terrain.";
+
+	public static final String USER_PASSWORD_INVALIDO = "User or Password invalid.";
+
+	public static final String API_STARB2W = "API STAR B2W";
+
+	public static final String BEARER = "Bearer ";
 
 }

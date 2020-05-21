@@ -1,4 +1,4 @@
-package br.com.paulomoreira.starB2W.resource;
+package br.com.paulomoreira.starB2W.resource.planet;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,12 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import br.com.paulomoreira.starB2W.dto.PlanetRequest;
 import br.com.paulomoreira.starB2W.exception.AttributeException;
 import br.com.paulomoreira.starB2W.gateway.SwapiGateway;
 import br.com.paulomoreira.starB2W.gateway.dto.SwapiResponse;
 import br.com.paulomoreira.starB2W.model.Planet;
-import br.com.paulomoreira.starB2W.resource.repository.PlanetRepository;
+import br.com.paulomoreira.starB2W.resource.planet.dto.PlanetRequest;
 import br.com.paulomoreira.starB2W.util.Constants;
 import br.com.paulomoreira.starB2W.util.Converter;
 import br.com.paulomoreira.starB2W.util.Validation;

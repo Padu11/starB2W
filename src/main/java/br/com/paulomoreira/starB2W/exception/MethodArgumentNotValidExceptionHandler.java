@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import br.com.paulomoreira.starB2W.dto.ErrorType;
 import br.com.paulomoreira.starB2W.util.Constants;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
