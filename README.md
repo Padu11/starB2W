@@ -81,6 +81,7 @@ O token tem expiração de 1 dia, esse tempo pode ser ajustado no arquivo applic
  De forma a padronizar os climas e terrenos aceitos existem validações na aplicação para que sejam apenas permitidos os seguintes climas e terrenos durante a requisição de criação pelo usuário:
 
  **CLIMAS**
+ 
 arid | artic | artificial | temperate | frigid | frozen | hot | humid | moist | murky | polluted | rocky | subartic | superheated | temperate | tropical | unknown | windy
 
  **TERRENOS**
