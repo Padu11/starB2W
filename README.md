@@ -268,5 +268,5 @@ Caso haja erro no sistema, o log de erro será informado no console e será reto
 Este projeto esta sob licença [MIT](https://github.com/itsadeadh2/starwars-b2w/blob/master/LICENSE)
 
 _________
-Para quaisquer dúvida enviar email para:
+Para quaisquer dúvidas enviar email para:
 eng.paulomoreira@gmail.com
