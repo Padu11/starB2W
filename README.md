@@ -19,7 +19,7 @@ Observações:
 -  A porta pode ser alterada no arquivo application.yml, em **server.port**. 
 -  Pode ser encontrado no path [http://localhost:8080/starB2W/swagger-ui.html](http://localhost:8080/starB2W/swagger-ui.html) informações sobre os recursos da aplicação. 
 -  Pode ser encontrado a collection no PostMan, através do link: 
-[Collection - PostMan](%28https://www.getpostman.com/collections/8a3d5017a28d81807c09)
+[Collection - PostMan](https://www.getpostman.com/collections/8a3d5017a28d81807c09)
 
 **A API StarB2W está em constante evolução e até o momento foram utilizados no desenvolvimento:** 
 - Linguagem de programação Java (JDK 11); 
