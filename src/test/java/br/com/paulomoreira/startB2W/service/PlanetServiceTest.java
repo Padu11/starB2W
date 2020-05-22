@@ -57,16 +57,25 @@ public class PlanetServiceTest {
 	@Test
 	public void returnSucess_testFindAllPlanet() {
 
-		List<Planet> planets = new ArrayList<>();
-		Pageable pageable = PageRequest.of(1, 10);
+		Planet planet = new Planet();
+		planet.setId("1");
+		planet.setName("name");
+		planet.setClimates(Arrays.asList("arid"));
+		planet.setTerrains(Arrays.asList("swamp"));
+		planet.setMovieAppearances("5");
+		
+		List<Planet> planets = Arrays.asList(planet);
+		
+		Pageable pageable = PageRequest.of(0, 10);
 		Page<Planet> planetPageable = new PageImpl<Planet>(planets);
-
-		when(validation.checkIfPlanetExistInDatabaseByName("Planet")).thenReturn(false);
-
+		
 		when(planetRepository.findAll(pageable)).thenReturn(planetPageable);
 
 		Page<Planet> planetsReturned = planetService.findAllPlanets(1);
-		assertEquals(planets, planetsReturned);
+		
+		assertEquals(planetPageable, planetsReturned);
+	
+	
 	}
 
 	@Test
