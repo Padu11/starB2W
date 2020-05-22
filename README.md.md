@@ -15,22 +15,25 @@ Esta aplicação foi desenvolvida com arquitetura API REST e tem por objeto gere
 **URL Base:** [http://localhost:8080/starB2W/](http://localhost:8080/starB2W/) 
 
 Observações: 
-- O path raiz pode ser alterado no arquivo application.yml, em **server.servlet.context-path**. \
--  A porta pode ser alterada no arquivo application.yml, em **server.port**. \
+- O path raiz pode ser alterado no arquivo application.yml, em **server.servlet.context-path**. 
+-  A porta pode ser alterada no arquivo application.yml, em **server.port**. 
 -  Pode ser encontrado no path [http://localhost:8080/starB2W/swagger-ui.html](http://localhost:8080/starB2W/swagger-ui.html) informações sobre os recursos da aplicação. 
 -  Pode ser encontrado a collection no PostMan, através do link: 
 [Collection - PostMan](%28https://www.getpostman.com/collections/8a3d5017a28d81807c09)
 
-A API StarB2W está em constante evolução e até o momento foram utilizados no desenvolvimento:\*\* 
+**A API StarB2W está em constante evolução e até o momento foram utilizados no desenvolvimento:** 
 - Linguagem de programação Java (JDK 11); 
--  Apache Maven; - Spring Boot (2.2.7 Release); 
+-  Apache Maven; 
+-  Spring Boot (2.2.7 Release); 
 -  Swagger (2.9.2); 
 -  Hibernate Validator (5.4.2 Final); 
 -  Spring Boot Starter Data JPA (2.2.7 Release); 
 -  Spring Boot Starter Data Mongodb (2.2.7 Release); 
+- Spring Boot Starter Security (2.2.7 Release)
+- JWT (io.jsonwebtoken 0.9.1)
 -  Mongock Spring (2.0.0) 
 -  Spring Boot DevTools (2.2.7 Release); 
-- -Junit; 
+- Junit; 
 -  Mock/Mockito 
 -  Open Feign (2.2.2 Release); 
 -  LomBok (1.18.12). 
@@ -59,8 +62,12 @@ Foi utilizado o Spring Security com padrão JWT para a segurança da aplicação
 Temos no corpo de resposta o token e o tipo de autenticação:
 
 > {  "token": 
-> "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgU1RBUiBCMlciLCJzdWIiOiI1ZWM2MDdjNTQwNDQxMjVlZmMxODQ0Y2YiLCJpYXQiOjE1OTAwNjY1MzQsImV4cCI6MTU5MDE1MjkzNH0.hiQ6PL8r7AgryfKjnTzde4l_NYPF9REsQNcYB-2wJkE",
+> "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgU1RBUiBCMlciLCJzdWIiOiI1ZWM2MDdjNTQwNDQxMjVlZmMxODQ0Y2YiLCJpYXQiOjE1OTAwNjY1MzQsImV4cCI6MTU5MDE1MjkzNH0.hiQ6PL8r7AgryfKjnTzde4l_NYPF9REsQNcYB-2wJk",
 > "authType":  "Bearer"  }
+
+No caso de informações inválidas, é retornado status 400 e no corpo:
+
+> {  "MESSAGE:":  "User or Password invalid."}
 
 Os endpoints abaixo estão protegidos,  o restante não necessita de autenticação:
 
@@ -83,13 +90,34 @@ arid | artic | artificial | temperate | frigid | frozen | hot | humid | moist | 
 
 ## Recursos:
 
-**[GET\] /v1/planets** 
+**[GET] /health**
+
+ Para verificar o status da aplicação pode-se executar uma requisição get para o path /health. No caso de sucesso temos como resposta:
+
+> {  "Status":  "UP"  }
+______
+**[GET] /auth**
+
+Para gerar o token de autorização da aplicação deve ser passado em uma requisição get com path **/auth** o corpo de requisição abaixo:
+
+> {   "email": "eng.paulomoreira@gmail.com",   
+> "pass": "Paulo1234" }
+
+No caso de sucesso, como resposta status 200 e corpo:
+
+> {  "token": 
+> "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgU1RBUiBCMlciLCJzdWIiOiI1ZWM2MDdjNTQwNDQxMjVlZmMxODQ0Y2YiLCJpYXQiOjE1OTAwNjY1MzQsImV4cCI6MTU5MDE1MjkzNH0.hiQ6PL8r7AgryfKjnTzde4l_NYPF9REsQNcYB-2wJk",
+> "authType":  "Bearer"  }
+
+______
+
+**[GET] /v1/planets** 
 
 Obter lista de todos os planetas. Pode ser passado o parâmetro page (não obrigatório). Se o parâmetro não for informado será retornado todos os planetas cadastrados. A paginação começa do número 1. Exemplo: Primeira página parâmetro (?page=1). 
 
 **Exemplo curl:** 
 
-> curl -X GET "http://localhost:8080/starB2W/v1/planets?page=2" -H "accept: application/json"
+     curl -X GET "http://localhost:8080/starB2W/v1/planets?page=2" -H "accept: application/json"
 
 **Modelo de objeto de retorno em caso de sucesso (Status Code 200):** 
 
@@ -117,8 +145,8 @@ Obter lista de todos os planetas. Pode ser passado o parâmetro page (não obrig
 Obter planeta pesquisando pelo ID. Deve ser passado a variável "id" na URL. 
 **Exemplo curl:** 
 
-> curl -X GET
-"http://localhost:8080/starB2W/v1/planet/5ec0531d39df1e529d451136" -H "accept: application/json"
+     curl -X GET
+    "http://localhost:8080/starB2W/v1/planet/5ec0531d39df1e529d451136" -H "accept: application/json"
 
 **Modelo de objeto de retorno em caso de sucesso (Status Code 200):** 
 
@@ -138,7 +166,8 @@ Obter planeta pesquisando pelo ID. Deve ser passado a variável "id" na URL.
 Obter planeta pesquisando pelo parâmetro nome. Deve ser passado a variável "name" na URL. 
 **Exemplo curl:** 
 
-> curl -X GET "http://localhost:8080/starB2W/v1/planet?name=Alderaan" -H "accept: application/json"
+
+    curl -X GET "http://localhost:8080/starB2W/v1/planet?name=Alderaan" -H "accept: application/json"
 
 **Modelo de objeto de retorno em caso de sucesso (Status Code 200):** 
 
@@ -155,7 +184,7 @@ Obter planeta pesquisando pelo parâmetro nome. Deve ser passado a variável "na
  ________ 
  **\[POST\] /v1/planet**
 
- Cadastrar planeta. Deve ser passado um body conforme modelo: 
+ Cadastrar planeta. Deve ser passado um body conforme modelo e no header o parametro Authorization, passando a palavra Bearer e o token: 
 
 > { "name": "Dagobah", 
 >  "climates": \["frozen" \], 
@@ -163,7 +192,7 @@ Obter planeta pesquisando pelo parâmetro nome. Deve ser passado a variável "na
 
 **Exemplo curl:** 
 
-> curl -X POST "http://localhost:8080/starB2W/v1/planet" -H "accept: application/json" -H "Content-Type: application/json" -d
+    curl -X POST "http://localhost:8080/starB2W/v1/planet" -H "accept: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgU1RBUiBCMlciLCJzdWIiOiI1ZWM2MDdjNTQwNDQxMjVlZmMxODQ0Y2YiLCJpYXQiOjE1OTAxMDc1OTQsImV4cCI6MTU5MDE5Mzk5NH0.3BpSOd5J1WyBUpfeHzem3BggCi0OQm1Pl21_Aev8Lk" -H "Content-Type: application/json" -d "{ \"name\": \"string\", \"climates\": [ \"arid\" ], \"terrains\": [ \"swamp\" ]}"
 
  **Modelo de objeto de retorno em caso de sucesso (Status Code 201):** 
 > { "id": "5ec57d237386f526970d3b29", 
@@ -193,10 +222,10 @@ Nesta requisição a API starB2W consome a API Swapi buscando o planeta pelo nom
 No caso do planeta já se encontrar cadastrado no banco de dados da API starB2W, o retorno é 400 Bad Request. 
 
 **Exemplo curl:** 
-curl -X POST 
 
-> "http://localhost:8080/starB2W/v1/planet/Yavin%20IV" -H "accept:
-> application/json"
+    curl -X POST 
+     "http://localhost:8080/starB2W/v1/planet/Yavin%20IV" -H "accept:
+     application/json"
 
 **Modelo de objeto de retorno em caso de sucesso (Status Code 201):** 
 
@@ -216,11 +245,11 @@ curl -X POST
   _____ 
  **\[DELETE\] /v1/planet/{id}** 
 
-Deletar planeta. Deve ser passado o id do planeta como variável na url. E o authorization no header da requisição.
+Deletar planeta. Deve ser passado o id do planeta como variável na url e o authorization no header da requisição, no formato: Bearer token.
 **Exemplo curl:** 
 
-> curl -X DELETE "http://localhost:8080/starB2W/v1/planet/123" -H
-> "accept: application/json" -H "Authorization: 111"
+     curl -X DELETE "http://localhost:8080/starB2W/v1/planet/123" -H
+     "accept: application/json" -H "Authorization: Bearer 111"
 
 **Modelo de objeto de retorno em caso de sucesso (Status Code 200):** 
 
@@ -232,7 +261,11 @@ ________
 
 Caso haja erro no sistema, o log de erro será informado no console e será retornado uma mensagem ao usuário com Http Status 500, no padrão abaixo: 
 
->  { "messages": \[  {  "message":  "We were unable to process your request. Try again later." }   ] }
+>  { "messages": [  {  "message":  "We were unable to process your request. Try again later." }   ] }
  _______ 
 ## **Licença:** 
 Este projeto esta sob licença [MIT](https://github.com/itsadeadh2/starwars-b2w/blob/master/LICENSE)
+
+_________
+Para quaisquer dúvida enviar email para:
+eng.paulomoreira@gmail.com
