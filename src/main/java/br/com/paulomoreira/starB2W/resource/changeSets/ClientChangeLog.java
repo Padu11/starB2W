@@ -2,7 +2,6 @@ package br.com.paulomoreira.starB2W.resource.changeSets;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.bson.Document;
@@ -18,7 +17,7 @@ import br.com.paulomoreira.starB2W.model.User;
 
 @ChangeLog
 public class ClientChangeLog {
-	// $2a$10$W.27opWfx9ikvmj/C8EdnOlNI44B4.ZzOZKj5.nwpUoVkgD2OmBXG
+	
 	private static final String COLLECTION_CLIMATE = "climate";
 	private static final String COLLECTION_TERRAIN = "terrain";
 	private static final String COLLECTION_USER = "user";
