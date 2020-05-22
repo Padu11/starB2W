@@ -1,4 +1,4 @@
-package br.com.paulomoreira.starB2W.resource.changeSets;
+package br.com.paulomoreira.starB2W.changeSets;
 
 import java.util.ArrayList;
 import java.util.Arrays;
