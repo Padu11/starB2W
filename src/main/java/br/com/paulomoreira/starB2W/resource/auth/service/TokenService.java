@@ -33,10 +33,9 @@ public class TokenService {
 	}
 
 	public String getUserId(String token) {
-		
-		Claims claims = 
-				Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
-		
+
+		Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+
 		return claims.getSubject();
 
 	}
@@ -49,6 +48,5 @@ public class TokenService {
 			return false;
 		}
 	}
-
 
 }

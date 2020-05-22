@@ -31,7 +31,8 @@ public class AuthService implements UserDetailsService {
 			
 		}
 		
-		throw new UsernameNotFoundException(Constants.USER_PASSWORD_INVALIDO);
+		
+		throw new UsernameNotFoundException(Constants.USER_PASSWORD_INVALID);
 		
 	}
 

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.paulomoreira.starB2W.resource.auth.service.TokenService;
+import br.com.paulomoreira.starB2W.util.Constants;
 import br.com.paulomoreira.starB2W.util.Converter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -57,7 +58,12 @@ public class AuthResource {
 
 		} catch (AuthenticationException e) {
 
-			return ResponseEntity.badRequest().build();
+			HashMap<String, String> message = new HashMap<String, String>();
+			
+			message.put(Constants.MESSAGE, Constants.USER_PASSWORD_INVALID);
+			
+			
+			return ResponseEntity.badRequest().body(message);
 		}
 
 	}

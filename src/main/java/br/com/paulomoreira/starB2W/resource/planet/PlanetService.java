@@ -194,6 +194,7 @@ public class PlanetService {
 		if (planetExists == true) {
 			log.info("Deleting planet with Id{}.", id);
 			planetRepository.deleteById(id);
+			return Constants.TRUE;
 		}
 
 		log.info("The planet with Id {} was not found.", id);
