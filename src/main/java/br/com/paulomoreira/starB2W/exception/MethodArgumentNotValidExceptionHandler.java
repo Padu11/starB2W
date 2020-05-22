@@ -33,15 +33,14 @@ public class MethodArgumentNotValidExceptionHandler {
 
 	private ResponseEntity<?> processFieldErrors(List<FieldError> fieldErrors) {
 
-		List<ErrorType> messages = new ArrayList<>();
+		List<String> messages = new ArrayList<>();
 
 		for (int i = 0; i < fieldErrors.size(); i++) {
 
 			String message = Constants.FIELD.concat(fieldErrors.get(i).getField()).concat(Constants.WHITE_SPACE)
 					.concat(fieldErrors.get(i).getDefaultMessage());
 
-			messages.add(new ErrorType(message));
-
+			messages.add(message);
 		}
 
 		return ResponseEntity.badRequest().body(messages);
