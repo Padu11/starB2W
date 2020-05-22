@@ -4,9 +4,7 @@ import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.standaloneSetup;
 import static org.mockito.Mockito.when;
 
-import java.beans.Encoder;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +32,7 @@ import br.com.paulomoreira.starB2W.resource.auth.service.TokenService;
 import br.com.paulomoreira.starB2W.resource.planet.PlanetResource;
 import br.com.paulomoreira.starB2W.resource.planet.PlanetService;
 import br.com.paulomoreira.starB2W.resource.planet.dto.PlanetRequest;
-import br.com.paulomoreira.starB2W.util.Constants;
 import br.com.paulomoreira.starB2W.util.Converter;
-import io.jsonwebtoken.Jwts;
 import io.restassured.http.ContentType;
 
 @SpringBootTest(classes = StarB2WApplication.class)
@@ -266,4 +262,4 @@ public class PlanetResourceTest {
 		given().accept(ContentType.JSON).when().post("/v1/planet/name").then().statusCode(HttpStatus.NOT_FOUND.value());
 	}
 
-};
+}
