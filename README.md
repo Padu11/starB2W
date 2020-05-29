@@ -50,7 +50,7 @@ Observações:
 Para rodar a aplicação com o Docker é necessário como pré requisito ter instalados Docker & Docker Compose. 
 Na cli, dentro da pasta da aplicação, basta digitar: 
 
-> docker-compose down && > mvn clean install && > mvn package && > docker-compose up --build 
+> docker-compose down &&  mvn clean install &&  mvn package &&  docker-compose up --build 
  _______ 
 ## Autenticação:
 
