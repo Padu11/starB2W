@@ -153,7 +153,6 @@ public class Converter {
 
 		List<String> terrainArray = Arrays.asList(terrains);
 
-		terrainArray = terrainArray.stream().map(c -> c.replace(" ", "")).collect(Collectors.toList());
 
 		return terrainArray;
 	}
