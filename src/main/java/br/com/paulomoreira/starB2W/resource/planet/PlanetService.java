@@ -105,6 +105,7 @@ public class PlanetService {
 	public Optional<Planet> createPlanet(PlanetRequest planetRequest) throws AttributeException {
 
 		String planetName = StringUtils.capitalize(planetRequest.getName());
+		planetRequest.setName(planetName);
 
 		Boolean planetExistsInDatebase = validation.checkIfPlanetExistInDatabaseByName(planetName);
 

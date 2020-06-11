@@ -34,7 +34,7 @@ public class Validation {
 
 	public Boolean checkIfPlanetExistInDatabaseByName(String planetName) {
 
-		Optional<Planet> planet = planetRepository.findByName(planetName.toLowerCase());
+		Optional<Planet> planet = planetRepository.findByName(planetName);
 
 		if (planet.isPresent()) {
 			return true;

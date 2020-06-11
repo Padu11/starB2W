@@ -93,7 +93,7 @@ public class Converter {
 		List<String> climatesLowerCase = this.listToLowerCase(planetRequest.getClimates());
 		List<String> terrainLowerCase = this.listToLowerCase(planetRequest.getTerrains());
 		
-		planet.setName(planetRequest.getName().toLowerCase());
+		planet.setName(planetRequest.getName());
 		planet.setTerrains(terrainLowerCase);
 		planet.setClimates(climatesLowerCase);
 		planet.setMovieAppearances(movieAppearances);
