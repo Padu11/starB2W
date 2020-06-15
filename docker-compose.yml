@@ -1,24 +1,43 @@
-version: '3.1'
+version: '3.3'
 services:
-
-  mongo:
+  mongodb:
     container_name: mongo
     image: mongo
-    expose:
-     - 27017
     ports:
-     - "27017:27017"
+     - 27017:27017
+    volumes:
+        - my-mongo-volume:/data/db
+    networks: 
+     - java-mongo-network
+      
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    links:
+      - mongodb
+    networks:
+      - java-mongo-network
+
   starb2w:    
-    build: .
+    build:
+      dockerfile: ./Dockerfile
+      context: .
     environment:
      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/starB2W
-
-    
     ports:
-     - "8080:8080"
-    links:
-    - mongo
+     - 8080:8080
+    networks: 
+     - java-mongo-network
     depends_on:
-    - mongo
+     - mongodb
+  
+volumes:
+  my-mongo-volume:
+    
+       
+networks: 
+  java-mongo-network:
+    driver: bridge
 
 

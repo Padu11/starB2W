@@ -93,7 +93,7 @@ public class Converter {
 		List<String> climatesLowerCase = this.listToLowerCase(planetRequest.getClimates());
 		List<String> terrainLowerCase = this.listToLowerCase(planetRequest.getTerrains());
 		
-		planet.setName(planetRequest.getName().toLowerCase());
+		planet.setName(planetRequest.getName());
 		planet.setTerrains(terrainLowerCase);
 		planet.setClimates(climatesLowerCase);
 		planet.setMovieAppearances(movieAppearances);
@@ -153,7 +153,6 @@ public class Converter {
 
 		List<String> terrainArray = Arrays.asList(terrains);
 
-		terrainArray = terrainArray.stream().map(c -> c.replace(" ", "")).collect(Collectors.toList());
 
 		return terrainArray;
 	}

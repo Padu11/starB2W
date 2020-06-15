@@ -154,6 +154,8 @@ public class PlanetResource {
 	@ApiOperation(value = "Create Planet.")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created Successfully."),
 			@ApiResponse(code = 400, message = "The planet exist or some attribute sent is null.") })
+	
+	
 	public ResponseEntity<?> createPlanet(@RequestBody @Valid PlanetRequest planetRequest,
 			@RequestHeader(value = "Authorization", required = true) String authorization) throws AttributeException {
 
