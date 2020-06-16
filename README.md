@@ -50,7 +50,7 @@ Observações:
 Para rodar a aplicação com o Docker é necessário como pré requisito ter instalados Docker & Docker Compose. 
 Na cli, dentro da pasta da aplicação, basta digitar: 
 
-> docker-compose down &&  mvn clean install &&  mvn package &&  docker-compose up --build 
+> mvn package -DskipTests && docker-compose up -build 
  _______ 
 ## Autenticação:
 
@@ -264,8 +264,6 @@ Caso haja erro no sistema, o log de erro será informado no console e será reto
 
 >  { "messages": [  {  "message":  "We were unable to process your request. Try again later." }   ] }
  _______ 
-## **Licença:** 
-Este projeto esta sob licença [MIT](https://github.com/itsadeadh2/starwars-b2w/blob/master/LICENSE)
 
 _________
 Para quaisquer dúvidas enviar email para:
